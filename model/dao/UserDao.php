@@ -29,6 +29,19 @@ class UserDao {
         }
     }
 
+    public static function getPassByEmail($email){
+        $pdo = DBConnection::getSingletonPDO();
+        $stmt = $pdo->prepare("SELECT password FROM users WHERE email = ?");
+        $stmt->execute(array($email));
+
+        if($stmt->rowCount()== 0){
+            return null;
+        }else {
+            $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+            return $result["password"];
+        }
+    }
+
     public function updateUser (User $user){
 
     }

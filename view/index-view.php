@@ -26,7 +26,8 @@
 
 if(!isset($_SESSION["user"])){ ?>
 
-    <a href="<?php echo BASE_PATH?>?target=user&action=register">Register now</a>
+    <a href="<?php echo BASE_PATH ?>?target=user&action=register">Register now</a> <br>
+    <a href="<?php echo BASE_PATH ?>?target=user&action=login">Log in</a>
 
 <?php }
 else { ?>
