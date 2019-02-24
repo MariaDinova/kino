@@ -49,6 +49,22 @@ class UserController {
     }
 
     public function login(){
+        if(isset($_POST["login"])){
+            $email = $_POST["email"];
+            $password = $_POST["password"];
+            $realPassword = UserDao::getPassByEmail($email);
+            if($realPassword == null){
+                //TODO header location to loginError.html
+                echo "Invalid password";
+            } else{
+                if(password_verify($password, $realPassword)) {
+                    $_SESSION["user"]= UserDao::getByEmail($email);
+                    include_once URI."view/index-view.php";
 
+                }
+            }
+        } else {
+            include_once URI."view/login.php";
+        }
     }
 }
