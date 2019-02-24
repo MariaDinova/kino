@@ -19,13 +19,14 @@ class User {
      * @param $password
      * @param $age
      */
-    public function __construct($user_id,$firstName, $lastName, $email, $password, $age) {
+    public function __construct($user_id, $firstName, $lastName, $email, $password, $age, $isAdmin) {
         $this->user_id = $user_id;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->email = $email;
         $this->password = $password;
         $this->age = $age;
+        $this->isAdmin = $isAdmin;
     }
 
     /**
@@ -78,6 +79,10 @@ class User {
         return $this->password;
     }
 
+    function removePass(){
+        unset($this->password);
+    }
+
     /**
      * @return mixed
      */
@@ -88,7 +93,7 @@ class User {
     /**
      * @return mixed
      */
-    public function getisAdmin() {
+    public function getIsAdmin() {
         return $this->isAdmin;
     }
 
