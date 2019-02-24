@@ -26,7 +26,7 @@ class UserController {
                 //TODO header location to registerError.html where is register with red fields
             }
             else {
-                $newUser = new User($firstName,$lastName,$email,$password,$age);
+                $newUser = new User(null, $firstName,$lastName,$email,$password,$age);
                 UserDao::addUser($newUser);
                 $_SESSION["user"] = $newUser;
                 include_once URI."view/index-view.php";

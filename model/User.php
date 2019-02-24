@@ -3,7 +3,7 @@
 namespace model;
 class User {
 
-    private $id;
+    private $user_id;
     private $firstName;
     private $lastName;
     private $email;
@@ -19,7 +19,8 @@ class User {
      * @param $password
      * @param $age
      */
-    public function __construct($firstName, $lastName, $email, $password, $age) {
+    public function __construct($user_id,$firstName, $lastName, $email, $password, $age) {
+        $this->user_id = $user_id;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->email = $email;
@@ -30,75 +31,64 @@ class User {
     /**
      * @param mixed $id
      */
-    public function setId($id)
-    {
-        $this->id = $id;
+    public function setId($id) {
+        $this->user_id = $id;
     }
 
     /**
      * @param mixed $isAdmin
      */
-    public function setIsAdmin($isAdmin)
-    {
+    public function setIsAdmin($isAdmin) {
         $this->isAdmin = $isAdmin;
     }
 
 
-
-
     /**
      * @return mixed
      */
-    public function getId()
-    {
-        return $this->id;
+    public function getId() {
+        return $this->user_id;
     }
 
     /**
      * @return mixed
      */
-    public function getFirstName()
-    {
+    public function getFirstName(){
         return $this->firstName;
     }
 
     /**
      * @return mixed
      */
-    public function getLastName()
-    {
+    public function getLastName(){
         return $this->lastName;
     }
 
     /**
      * @return mixed
      */
-    public function getEmail()
-    {
+    public function getEmail(){
         return $this->email;
     }
 
     /**
      * @return mixed
      */
-    public function getPassword()
-    {
+    public function getPassword(){
         return $this->password;
     }
 
     /**
      * @return mixed
      */
-    public function getAge()
-    {
+    public function getAge(){
         return $this->age;
     }
 
     /**
      * @return mixed
      */
-    public function getisAdmin()
-    {
+    public function getisAdmin() {
         return $this->isAdmin;
     }
 
