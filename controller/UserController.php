@@ -63,7 +63,9 @@ class UserController {
                     $user = UserDao::getByEmail($email);
                     $_SESSION["user"]= $user;
                     if($user->getIsAdmin() != null){
-                        header("Location: view/adminPanel.php");
+                        $_SESSION["user"]= $user;
+                        //header("Location: view/adminPanel.php");
+                        include_once URI . "view/adminPanel.php";
                     }else {
                         include_once URI . "view/index-view.php";
                     }
