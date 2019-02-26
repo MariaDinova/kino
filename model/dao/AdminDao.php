@@ -98,4 +98,78 @@ class AdminDao{
         }
  }
 
+ public static function insertHallType($hallType){
+     try {
+         $pdo = DBConnection::getSingletonPDO();
+         $stmt = $pdo->prepare("INSERT INTO hall_types (type) VALUES (?)");
+         $stmt->execute(array($hallType));
+         return true;
+     }catch (\PDOException $e){
+         echo "Error" . $e->getMessage();
+         return false;
+     }
+ }
+
+ public static function insertHall($cinema_id, $hallType_id, $seats){
+     try {
+         $pdo = DBConnection::getSingletonPDO();
+         $stmt = $pdo->prepare("INSERT INTO halls (cinema_id, hall_type_id, seats) VALUES (?,?,?)");
+         $stmt->execute(array($cinema_id, $hallType_id, $seats));
+         return true;
+     }catch (\PDOException $e){
+         echo "Error" . $e->getMessage();
+         return false;
+     }
+ }
+
+ public static function insertMovieType($movie_type){
+     try {
+         $pdo = DBConnection::getSingletonPDO();
+         $stmt = $pdo->prepare("INSERT INTO movie_type (movie_type) VALUES (?)");
+         $stmt->execute(array($movie_type));
+         return true;
+     }catch (\PDOException $e){
+         echo "Error" . $e->getMessage();
+         return false;
+     }
+ }
+
+    public static function insertPeriod($start_date, $end_date){
+        try {
+            $pdo = DBConnection::getSingletonPDO();
+            $stmt = $pdo->prepare("INSERT INTO periods (start_date, end_date) VALUES (?, ?)");
+            $stmt->execute(array($start_date, $end_date));
+            return true;
+        }catch (\PDOException $e){
+            echo "Error" . $e->getMessage();
+            return false;
+        }
+    }
+
+
+    public static function insertProgram($hall_id, $movie_id, $hour_start, $period_id, $screening){
+        try {
+            $pdo = DBConnection::getSingletonPDO();
+            $stmt = $pdo->prepare("INSERT INTO programs (hall_id, movie_id, hour_start, period_id, screening) VALUES (?, ?, ?, ?, ?)");
+            $stmt->execute(array($hall_id, $movie_id, $hour_start, $period_id, $screening));
+            return true;
+        }catch (\PDOException $e){
+            echo "Error" . $e->getMessage();
+            return false;
+        }
+    }
+
+
+    public static function insertTicket($cinema_id, $hall_id, $movie_id, $date, $price){
+        try {
+            $pdo = DBConnection::getSingletonPDO();
+            $stmt = $pdo->prepare("INSERT INTO tickets (cinema_id, hall_id, movie_id, date, price) VALUES (?, ?, ?, ?, ?)");
+            $stmt->execute(array($cinema_id, $hall_id, $movie_id, $date, $price));
+            return true;
+        }catch (\PDOException $e){
+            echo "Error" . $e->getMessage();
+            return false;
+        }
+    }
+
 }
