@@ -29,7 +29,15 @@ class UserController {
                 $newUser = new User(null, $firstName,$lastName,$email,$password,$age);
                 UserDao::addUser($newUser);
                 $_SESSION["user"] = $newUser;
-                include_once URI."view/index-view.php";
+
+                require (URI.'smartyHeader.php');
+
+                $msg = "Hello Smarty";
+                $title = "title";
+                $smarty->assign('title', $title);
+                $smarty->assign('msg', $msg);
+                $smarty->display('index-view.tpl');
+                include_once URI."view/index-view.tpl";
 
             }
 
@@ -64,7 +72,10 @@ class UserController {
                 }
             }
         } else {
-            include_once URI."view/login.php";
+            require (URI.'smartyHeader.php');
+            $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
+            $smarty->assign('BASE_PATH', BASE_PATH);
+            $smarty->display('login.tpl');
         }
     }
 }

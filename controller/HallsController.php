@@ -14,10 +14,18 @@ use model\Halls;
 
 class HallsController {
     public function list(){
+        if(isset($_GET["cinema"])){
+            $cinema=$_GET["cinema"];
+        }
         $allHalls = [];
-        $allHalls = HallsDao::getAll();
+        $allHalls = HallsDao::getAll($cinema);
 
-        include_once URI."view/hallsList.php";
+        require (URI.'smartyHeader.php');
+
+        $smarty->assign('BASE_PATH', BASE_PATH);
+        $smarty->assign('halls', $allHalls);
+        $smarty->display('hallsList.tpl');
+
     }
 
 }

@@ -17,11 +17,12 @@ class UserDao {
     public static function getByEmail($email){
 
         $pdo = DBConnection::getSingletonPDO();
-        $stmt = $pdo->prepare("SELECT user_id, first_name, last_name, email, age, is_admin FROM users WHERE email=?");
+
+        $stmt = $pdo->prepare("SELECT user_id, first_name, last_name, email, password, age, is_admin FROM users WHERE email=?");
         $stmt->execute(array($email));
         if ($row = $stmt->fetch(\PDO::FETCH_OBJ)) {
-            $user = new User($row->user_id,$row->first_name, $row->last_name, $row->email,$row->age);
-            $user->setIsAdmin($row->is_admin);
+            $user = new User($row->user_id,$row->first_name, $row->last_name, $row->email,$row->password,$row->age,$row->is_admin);
+
             return $user;
         }
         else {
