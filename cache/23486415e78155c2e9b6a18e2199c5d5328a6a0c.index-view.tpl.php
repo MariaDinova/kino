@@ -1,30 +1,30 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-02-26 09:46:45
+/* Smarty version 3.1.33, created on 2019-02-26 11:17:09
   from 'C:\xampp\htdocs\kino\view\index-view.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5c74fcf543d5c0_41269505',
+  'unifunc' => 'content_5c751225a64a34_33246087',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '34ec09b3e453595f63050dede73f15cdf890adf3' => 
     array (
       0 => 'C:\\xampp\\htdocs\\kino\\view\\index-view.tpl',
-      1 => 1551115082,
+      1 => 1551173337,
       2 => 'file',
     ),
     '37d62da30763bf97e7bca3b822252e1902644a87' => 
     array (
       0 => 'C:\\xampp\\htdocs\\kino\\view\\helpers\\headerLinks.tpl',
-      1 => 1551115148,
+      1 => 1551173406,
       2 => 'file',
     ),
   ),
   'cache_lifetime' => 30,
 ),true)) {
-function content_5c74fcf543d5c0_41269505 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5c751225a64a34_33246087 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!doctype html>
 <html lang="en">
 <head>
@@ -36,7 +36,9 @@ function content_5c74fcf543d5c0_41269505 (Smarty_Internal_Template $_smarty_tpl)
 </head>
 <body>
 
-    <a href="http://localhost:1234/kino/?target=user&action=logout">Logout</a><br>
+    <a href="http://localhost:1234/kino/?target=user&action=register">Register now</a> <br>
+    <a href="http://localhost:1234/kino/?
+    target=user&action=login">Log in</a><br>
 
 <a href="http://localhost:1234/kino/?target=cinema&action=list">List all cinema</a> <br>
 <a href="http://localhost:1234/kino/?target=movieCategory&action=list">List all movie categories</a> <br>

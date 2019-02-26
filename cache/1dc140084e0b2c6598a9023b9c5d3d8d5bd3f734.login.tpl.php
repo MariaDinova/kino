@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-02-25 18:37:48
+/* Smarty version 3.1.33, created on 2019-02-26 11:17:31
   from 'C:\xampp\htdocs\kino\view\login.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5c7427ecd66b73_72167484',
+  'unifunc' => 'content_5c75123bed8dd7_19234748',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -18,7 +18,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   ),
   'cache_lifetime' => 30,
 ),true)) {
-function content_5c7427ecd66b73_72167484 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5c75123bed8dd7_19234748 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!doctype html>
 <html lang="en">
 <head>
