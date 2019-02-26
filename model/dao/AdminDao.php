@@ -9,6 +9,8 @@
 namespace model\dao;
 
 
+use model\Movie;
+
 class AdminDao{
     public static function getAllMovies(){
         $pdo = DBConnection::getSingletonPDO();
@@ -21,7 +23,29 @@ class AdminDao{
         $stmt->execute();
         $movies = [];
         while ($row = $stmt->fetch(\PDO::FETCH_OBJ)){
+                $movie = new Movie($row->movie_id,$row->movie_name,$row->description,$row->movie_type,
+                    $row->image_uri,$row->trailer_uri,$row->restriction,$row->price);
+                $movies[]=$movie;
+            }
+            return $movies;
+        }
 
+    public static function insertMovie($id, $movie_name, $description, $movie_type, $image_uri, $trailer_uri, $restriction, $price, $duration, $slot ){
+        $pdo = DBConnection::getSingletonPDO();
+        $pdo->beginTransaction();
+        try {
+            $stmt = $pdo->prepare("INSERT INTO movies (movie_name, description, 
+                                                                image_uri, trailer_uri, 
+                                                                price, duration, slot) 
+                                            VALUES (?, ?, ?, ?, ?, ?, ?);");
+            $stmt->execute(array($movie_name, $description, $image_uri, $trailer_uri, $price, $duration, $slot));
+
+            $pdo->commit();
+            return true;
+            }catch (\PDOException $e){
+            echo "Error" . $e->getMessage();
+            $pdo->rollBack();
+            return false;
         }
     }
 }

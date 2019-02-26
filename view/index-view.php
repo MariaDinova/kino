@@ -8,6 +8,7 @@
 // Can't enter next field if not add something in previous. Date must be calendar with active future days for choosen movie
 //TODO list all movie images if hover on image show 3 buttons - for movie info, trailer and add to favorite movies
 
+
 ?>
 
 <!doctype html>
