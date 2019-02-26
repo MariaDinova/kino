@@ -28,9 +28,8 @@ class ProgramDao {
             for ($i = 0; $i < $row->screening; $i++){
                 $programByDate[] = date('H:m',mktime($row->hour_start, 0+($i*$row->slot), 00, 01, 02, 2001));
             }
-
-
-            $program = new Program ($row->program_id,$row->cinema_name,$row->type,$row->movie_name,
+            
+            $program = new Program ($row->program_id,$row->type, $row->movie_name,$row->cinema_name,
                 $row->hour_start,$row->start_date,$row->end_date,$row->screening,$row->slot, $programByDate, $row->image_uri,$row->trailer_uri);
             $programs[]=$program;
         }
