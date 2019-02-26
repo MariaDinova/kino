@@ -24,7 +24,7 @@ class AdminDao{
         $movies = [];
         while ($row = $stmt->fetch(\PDO::FETCH_OBJ)){
                 $movie = new Movie($row->movie_id,$row->movie_name,$row->description,$row->movie_type,
-                    $row->image_uri,$row->trailer_uri,$row->restriction,$row->price);
+                    $row->image_uri,$row->trailer_uri,$row->restriction,$row->price, $row->duration, $row->slot);
                 $movies[]=$movie;
             }
             return $movies;
@@ -86,6 +86,16 @@ class AdminDao{
        }
    }
 
-
+ public static function deleteMovie($movie_id){
+        try {
+            $pdo = DBConnection::getSingletonPDO();
+            $stmt = $pdo->prepare("DELETE FROM movies WHERE movie_id = ?");
+            $stmt->execute(array($movie_id));
+            return true;
+        }catch (\PDOException $e){
+            echo "Error" . $e->getMessage();
+            return false;
+        }
+ }
 
 }

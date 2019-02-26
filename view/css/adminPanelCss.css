@@ -1,0 +1,14 @@
+
+table{
+    border-collapse: collapse;
+}
+
+table td{
+    border: 1px solid black;
+    text-align: center;
+}
+
+.panels{
+    float: left;
+    margin: 10px;
+}
