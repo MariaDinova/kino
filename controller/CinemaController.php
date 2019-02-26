@@ -12,7 +12,7 @@ class CinemaController {
         $allCinema = CinemaDao::getAll();
 
         require (URI.'smartyHeader.php');
-
+        $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
         $smarty->assign('BASE_PATH', BASE_PATH);
         $smarty->assign('cinemas', $allCinema);
         $smarty->display('cinemaList.tpl');

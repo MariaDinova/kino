@@ -21,7 +21,7 @@ class MovieController {
         $smarty->assign('BASE_PATH', BASE_PATH);
         $smarty->assign('movies', $allMovies);
         $smarty->display('movieList.tpl');
-        //include_once URI."view/movieList.php";
+
     }
 
 }

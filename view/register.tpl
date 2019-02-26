@@ -1,13 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{include file="helpers/head.tpl"}
 
-
-<form action="<?php BASE_PATH ?>?target=user&action=register" method="post">
+<form action="{$BASE_PATH}?target=user&action=register" method="post">
 
     <label for="firstName">First name: </label>
     <input type="text" name="firstName" id="firstName"> <br>
@@ -26,7 +19,6 @@
 
     <input type="submit" name="register" value="Register now"><br>
 
-
 </form>
-</body>
-</html>
+
+{include file="helpers/foot.tpl"}
