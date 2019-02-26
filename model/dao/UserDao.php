@@ -17,6 +17,7 @@ class UserDao {
     public static function getByEmail($email){
 
         $pdo = DBConnection::getSingletonPDO();
+
         $stmt = $pdo->prepare("SELECT user_id, first_name, last_name, email, password, age, is_admin FROM users WHERE email=?");
         $stmt->execute(array($email));
         if ($row = $stmt->fetch(\PDO::FETCH_OBJ)) {

@@ -16,7 +16,12 @@ class MovieController {
         $allMovies = [];
         $allMovies = MovieDao::getAll();
 
-        include_once URI."view/movieList.php";
+        require (URI.'smartyHeader.php');
+        $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
+        $smarty->assign('BASE_PATH', BASE_PATH);
+        $smarty->assign('movies', $allMovies);
+        $smarty->display('movieList.tpl');
+        //include_once URI."view/movieList.php";
     }
 
 }

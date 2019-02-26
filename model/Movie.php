@@ -13,6 +13,8 @@ class Movie{
     private $trailer_uri;
     private $age_rest;
     private $price;
+    private $duration;
+    private $slot;
 
     /**
      * Movie constructor.
@@ -24,8 +26,10 @@ class Movie{
      * @param $trailer_uri
      * @param $age_rest
      * @param $price
+     * @param $duration
+     * @param $slot
      */
-    public function __construct($movie_id, $name, $description, $movie_type, $image_uri, $trailer_uri, $age_rest, $price)
+    public function __construct($movie_id, $name, $description, $movie_type, $image_uri, $trailer_uri, $age_rest, $price, $duration, $slot)
     {
         $this->movie_id = $movie_id;
         $this->name = $name;
@@ -35,6 +39,8 @@ class Movie{
         $this->trailer_uri = $trailer_uri;
         $this->age_rest = $age_rest;
         $this->price = $price;
+        $this->duration = $duration;
+        $this->slot = $slot;
     }
 
     /**
@@ -101,7 +107,20 @@ class Movie{
         return $this->price;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDuration()
+    {
+        return $this->duration;
+    }
 
-
+    /**
+     * @return mixed
+     */
+    public function getSlot()
+    {
+        return $this->slot;
+    }
 
 }

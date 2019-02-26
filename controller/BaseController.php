@@ -8,4 +8,7 @@ class BaseController {
     }
 }
 
-include_once URI."view/index-view.php";
+require (URI.'smartyHeader.php');
+$smarty->assign('isLoggedIn', isset($_SESSION["user"]));
+$smarty->assign('BASE_PATH', BASE_PATH);
+$smarty->display('index-view.tpl');

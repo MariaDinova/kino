@@ -11,7 +11,13 @@ class CinemaController {
         $allCinema = [];
         $allCinema = CinemaDao::getAll();
 
-        include_once URI."view/cinemaList.php";
+        require (URI.'smartyHeader.php');
+
+        $smarty->assign('BASE_PATH', BASE_PATH);
+        $smarty->assign('cinemas', $allCinema);
+        $smarty->display('cinemaList.tpl');
+
     }
+
 
 }
