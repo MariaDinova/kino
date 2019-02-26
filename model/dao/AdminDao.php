@@ -30,22 +30,62 @@ class AdminDao{
             return $movies;
         }
 
-    public static function insertMovie($id, $movie_name, $description, $movie_type, $image_uri, $trailer_uri, $restriction, $price, $duration, $slot ){
-        $pdo = DBConnection::getSingletonPDO();
-        $pdo->beginTransaction();
-        try {
-            $stmt = $pdo->prepare("INSERT INTO movies (movie_name, description, 
-                                                                image_uri, trailer_uri, 
-                                                                price, duration, slot) 
-                                            VALUES (?, ?, ?, ?, ?, ?, ?);");
-            $stmt->execute(array($movie_name, $description, $image_uri, $trailer_uri, $price, $duration, $slot));
 
-            $pdo->commit();
+
+    public static function insertMovie($movie_name, $description, $movie_type_id, $image_uri, $trailer_uri, $age_rest_id, $price, $duration, $slot ){
+        $pdo = DBConnection::getSingletonPDO();
+        try {
+            $stmt = $pdo->prepare("INSERT INTO movies (movie_name, description, movie_type_id,
+                                                                image_uri, trailer_uri, age_rest_id,
+                                                                price, duration, slot) 
+                                            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);");
+            $stmt->execute(array($movie_name, $description, $movie_type_id, $image_uri, $trailer_uri, $age_rest_id, $price, $duration, $slot));
             return true;
             }catch (\PDOException $e){
             echo "Error" . $e->getMessage();
-            $pdo->rollBack();
             return false;
         }
     }
+
+
+   public static function insertRestriction($restriction){
+        try {
+            $pdo = DBConnection::getSingletonPDO();
+            $stmt = $pdo->prepare("INSERT INTO age_restriction (restriction) VALUES (?)");
+            $stmt->execute(array($restriction));
+            return true;
+        }catch (\PDOException $e){
+            echo "Error" . $e->getMessage();
+            return false;
+        }
+   }
+
+
+   public static function insertCinema($location_id, $cinema_name){
+       try {
+           $pdo = DBConnection::getSingletonPDO();
+           $stmt = $pdo->prepare("INSERT INTO cinema (location_id, cinema_name) VALUES (?, ?)");
+           $stmt->execute(array($location_id, $cinema_name));
+           return true;
+       }catch (\PDOException $e){
+           echo "Error" . $e->getMessage();
+           return false;
+       }
+   }
+
+
+   public static function insertLocation($location){
+       try {
+           $pdo = DBConnection::getSingletonPDO();
+           $stmt = $pdo->prepare("INSERT INTO locations (city) VALUES (?)");
+           $stmt->execute(array($location));
+           return true;
+       }catch (\PDOException $e){
+           echo "Error" . $e->getMessage();
+           return false;
+       }
+   }
+
+
+
 }
