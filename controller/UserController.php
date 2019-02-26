@@ -17,6 +17,7 @@ class UserController {
             $email = $_POST["email"];
             $password = password_hash(trim($_POST["password"]), PASSWORD_BCRYPT);
             $age = $_POST["age"];
+            $isAdmin = null;
 
             $user = UserDao::getByEmail($email);
 
@@ -26,7 +27,7 @@ class UserController {
                 //TODO header location to registerError.html where is register with red fields
             }
             else {
-                $newUser = new User(null, $firstName,$lastName,$email,$password,$age);
+                $newUser = new User(null, $firstName,$lastName,$email,$password,$age,$isAdmin);
                 UserDao::addUser($newUser);
                 $_SESSION["user"] = $newUser;
 
@@ -46,8 +47,8 @@ class UserController {
             include_once URI."view/register.php";
         }
 
-
     }
+
 
     public function logout(){
         session_unset();
@@ -55,6 +56,7 @@ class UserController {
 
         header("Location:".BASE_PATH."index.php");
     }
+
 
     public function login(){
         if(isset($_POST["login"])){
@@ -66,8 +68,15 @@ class UserController {
                 echo "Invalid password";
             } else{
                 if(password_verify($password, $realPassword)) {
-                    $_SESSION["user"]= UserDao::getByEmail($email);
-                    include_once URI."view/index-view.php";
+                    $user = UserDao::getByEmail($email);
+                    $_SESSION["user"]= $user;
+                    if($user->getIsAdmin() != null){
+                        $_SESSION["user"]= $user;
+                        //header("Location: view/adminPanel.php");
+                        include_once URI . "view/adminPanel.php";
+                    }else {
+                        include_once URI . "view/index-view.php";
+                    }
 
                 }
             }
