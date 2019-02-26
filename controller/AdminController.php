@@ -38,11 +38,26 @@ class AdminController{
 
             if(strlen($error) == 0){
                 AdminDao::insertMovie($movie_name, $description, $movie_type, $image, $trailer, $age_restriction, $price, $duration, $slot);
+                include_once URI."view/adminPanel.php";
             }
         }
 
     }
 
+    public function insertRestriction(){
+        if(isset($_POST["insertRestriction"])){
+            $restriction = $_POST["restriction"];
+            AdminDao::insertRestriction($restriction);
+            include_once URI."view/adminPanel.php";
+        }
+    }
 
+    public function deleteMovie(){
+        if (isset($_POST["deleteMovie"])){
+            $movieId = $_POST["movieId"];
+            AdminDao::deleteMovie($movieId);
+            include_once URI."view/adminPanel.php";
+        }
+    }
 
 }

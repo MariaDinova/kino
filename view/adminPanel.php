@@ -1,5 +1,5 @@
 <?php
-
+$movies = \model\dao\AdminDao::getAllMovies();
 ?>
 
 <!doctype html>
@@ -10,9 +10,12 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Admin Panel</title>
+    <link rel="stylesheet" href="view/css/adminPanelCss.css">
 </head>
 <body>
-    <div>
+<h1>Admin Panel</h1>
+    <div class="panels">
+        <h2>Insert Movie</h2>
         <form action="?target=admin&action=insertMovie" method="post" enctype="multipart/form-data">
             <table>
                 <tr>
@@ -20,7 +23,7 @@
                     <td><input type="text" name="movie_name"></td>
                 </tr>
                 <tr>
-                    <td>Descrioption</td>
+                    <td>Description</td>
                     <td><textarea name="desc" id="textarea" cols="30" rows="10"></textarea></td>
                 </tr>
                 <tr>
@@ -72,7 +75,62 @@
                 </tr>
             </table>
         </form>
+    </div>
 
+    <div class="panels">
+        <form action="?target=admin&action=insertRestriction" method="post">
+            <h2>Insert Age Restriction</h2>
+            <table>
+                <tr>
+                    <td>Insert Restriction</td>
+                    <td><input type="text" name="restriction"></td>
+                </tr>
+                <tr>
+                    <td><input type="submit" name="insertRestriction" value="Insert Restriction"></td>
+                </tr>
+            </table>
+        </form>
+    </div>
+
+    <div class="panels">
+        <h2>Movies</h2>
+        <table id="admin-movies-list">
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Image</th>
+                <th>Trailer</th>
+                <th>Restriction</th>
+                <th>Price</th>
+                <th>Duration</th>
+                <th>Slot</th>
+                <th>Delete</th>
+            </tr>
+            <?php foreach($movies as $movie) {  ?>
+                <tr>
+                    <td><?php echo $movie->getName();?></td>
+                    <td><?php echo $movie->getDescription();?></td>
+                    <td><?php echo $movie->getMovieType();?></td>
+                    <td>
+                        <img width="100px" src="<?php echo $movie->getImageUri();?>" alt="Film-image">
+                    </td>
+                    <td>
+                        <iframe src="<?php echo $movie->getTrailerUri();?>"></iframe>
+                    </td>
+                    <td><?php echo $movie->getAgeRest();?></td>
+                    <td><?php echo $movie->getPrice();?></td>
+                    <td><?php echo $movie->getDuration();?></td>
+                    <td><?php echo $movie->getSlot();?></td>
+                    <td>
+                        <form action="?target=admin&action=deleteMovie" method="post">
+                            <input type="hidden" name=movieId" value="<?php echo $movie->getMovieId(); ?>">
+                            <input type="submit" name="deleteMovie" value="Delete">
+                        </form>
+                    </td>
+                </tr>
+            <?php } ?>
+        </table>
     </div>
 
 
