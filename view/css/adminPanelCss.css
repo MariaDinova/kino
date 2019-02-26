@@ -1,10 +1,13 @@
-
+body{
+    background-image: url("../../img/bg-smoke.jpg");
+    color: white;
+}
 table{
     border-collapse: collapse;
 }
 
 table td{
-    border: 1px solid black;
+    border: 1px solid white;
     text-align: center;
 }
 
