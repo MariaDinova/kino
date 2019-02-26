@@ -19,6 +19,8 @@ class Program {
     private $screening;
     private $slot;
     private $programByDate;
+    private $image_uri;
+    private $trailer_uri;
 
     /**
      * Program constructor.
@@ -32,8 +34,10 @@ class Program {
      * @param $screening
      * @param $slot
      * @param $programByDate
+     * @param $image_uri
+     * @param $trailer_uri
      */
-    public function __construct($program_id, $hall, $movie, $cinema, $hourStart, $startDate, $endDate, $screening, $slot, $programByDate)
+    public function __construct($program_id, $hall, $movie, $cinema, $hourStart, $startDate, $endDate, $screening, $slot, $programByDate, $image_uri, $trailer_uri)
     {
         $this->program_id = $program_id;
         $this->hall = $hall;
@@ -45,6 +49,8 @@ class Program {
         $this->screening = $screening;
         $this->slot = $slot;
         $this->programByDate = $programByDate;
+        $this->image_uri = $image_uri;
+        $this->trailer_uri = $trailer_uri;
     }
 
     /**
@@ -127,6 +133,21 @@ class Program {
         return $this->programByDate;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getImageUri()
+    {
+        return $this->image_uri;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTrailerUri()
+    {
+        return $this->trailer_uri;
+    }
 
 
 }

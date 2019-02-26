@@ -12,7 +12,7 @@ use model\Program;
 class ProgramDao {
     public static function getAllByDate($date){
         $pdo = DBConnection::getSingletonPDO();
-        $stmt = $pdo->prepare("SELECT program_id, cinema_name, type, movie_name, hour_start, start_date, end_date, screening, slot 
+        $stmt = $pdo->prepare("SELECT program_id, cinema_name, type, movie_name, hour_start, start_date, end_date, screening, slot, image_uri, trailer_uri
                                           FROM programs
                                           LEFT JOIN halls ON programs.hall_id=halls.hall_id
                                           LEFT JOIN hall_types ON halls.hall_type_id=hall_types.hall_type_id
@@ -31,7 +31,7 @@ class ProgramDao {
 
 
             $program = new Program ($row->program_id,$row->cinema_name,$row->type,$row->movie_name,
-                $row->hour_start,$row->start_date,$row->end_date,$row->screening,$row->slot, $programByDate);
+                $row->hour_start,$row->start_date,$row->end_date,$row->screening,$row->slot, $programByDate, $row->image_uri,$row->trailer_uri);
             $programs[]=$program;
         }
         return $programs;

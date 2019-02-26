@@ -1,13 +1,17 @@
+<menu>
+<div><a href="{$BASE_PATH}?target=cinema&action=list">Кина</a></div>
+<div><a href="{$BASE_PATH}?target=program&action=list">Програма</a></div>
 {if $isLoggedIn}
-    <a href="{$BASE_PATH}?target=user&action=logout">Logout</a><br>
+    <div><a href="{$BASE_PATH}?target=user&action=logout">Изход</a></div>
 {else}
-    <a href="{$BASE_PATH}?target=user&action=register">Register now</a> <br>
-    <a href="{$BASE_PATH}?
-    target=user&action=login">Log in</a><br>
+    <div><a href="{$BASE_PATH}?target=user&action=login">Вход</a></div>
+    <div><a href="{$BASE_PATH}?target=user&action=register">Регистрация</a></div>
 {/if}
-<a href="{$BASE_PATH}?target=cinema&action=list">List all cinema</a> <br>
+</menu>
+<!--
 <a href="{$BASE_PATH}?target=movieCategory&action=list">List all movie categories</a> <br>
 <a href="{$BASE_PATH}?target=ageRestriction&action=list">List all restrictions</a> <br>
 <a href="{$BASE_PATH}?target=halls&action=list">List all halls</a> <br>
 <a href="{$BASE_PATH}?target=movie&action=list">List all movies</a> <br>
 <a href="{$BASE_PATH}?target=program&action=list">Program</a> <br>
+-->

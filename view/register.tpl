@@ -2,23 +2,32 @@
 
 <form action="{$BASE_PATH}?target=user&action=register" method="post">
 
-    <label for="firstName">First name: </label>
-    <input type="text" name="firstName" id="firstName"> <br>
-
-    <label for="lastName">Last name: </label>
-    <input type="text" name="lastName" id="lastName"> <br>
-
-    <label for="email">E-mail: </label>
-    <input type="text" name="email" id="email"> <br>
-
-    <label for="password">Password: </label>
-    <input type="password" name="password" id="password"> <br>
-
-    <label for="age">Age: </label>
-    <input type="number" name="age" id="age"> <br>
-
-    <input type="submit" name="register" value="Register now"><br>
-
+    <table>
+        <tr>
+            <td>First name</td>
+            <td><input type="text" name="firstName" id="firstName"></td>
+        </tr>
+        <tr>
+            <td>Last name</td>
+            <td><input type="text" name="lastName" id="lastName"></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input type="text" name="email" id="email"></td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input type="password" name="password" id="password"></td>
+        </tr>
+        <tr>
+            <td>Age</td>
+            <td><input type="number" name="age" id="age"></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" name="register" value="Register now"></td>
+        </tr>
+    </table>
+    
 </form>
 
 {include file="helpers/foot.tpl"}
