@@ -2,3 +2,4 @@
 *.tpl.php
 /.idea
 /cache
+config.php
