@@ -9,6 +9,7 @@
 namespace model\dao;
 
 
+use model\Halls;
 use model\Movie;
 
 class AdminDao{
@@ -29,6 +30,24 @@ class AdminDao{
             }
             return $movies;
         }
+
+    public static function getAllHalls(){
+
+        $pdo = DBConnection::getSingletonPDO();
+        $stmt = $pdo->prepare("SELECT halls.hall_id, cinema.cinema_name, hall_types.type, halls.seats 
+                                        FROM halls
+                                        LEFT JOIN hall_types 
+                                        ON halls.hall_type_id=hall_types.hall_type_id
+                                        JOIN cinema
+                                        ON cinema.cinema_id = halls.cinema_id;");
+        $stmt->execute();
+        $halls = [];
+        while ($row = $stmt->fetch(\PDO::FETCH_OBJ)) {
+            $hall = new Halls($row->hall_id,$row->cinema_name,$row->type,$row->seats);
+            $halls[]=$hall;
+        }
+        return $halls;
+    }
 
 
 
@@ -58,19 +77,6 @@ class AdminDao{
             echo "Error" . $e->getMessage();
             return false;
         }
-   }
-
-
-   public static function insertCinema($location_id, $cinema_name){
-       try {
-           $pdo = DBConnection::getSingletonPDO();
-           $stmt = $pdo->prepare("INSERT INTO cinema (location_id, cinema_name) VALUES (?, ?)");
-           $stmt->execute(array($location_id, $cinema_name));
-           return true;
-       }catch (\PDOException $e){
-           echo "Error" . $e->getMessage();
-           return false;
-       }
    }
 
 
@@ -171,5 +177,8 @@ class AdminDao{
             return false;
         }
     }
+
+
+
 
 }

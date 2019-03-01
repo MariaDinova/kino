@@ -1,5 +1,10 @@
 <?php
 $movies = \model\dao\AdminDao::getAllMovies();
+$movie_types = \model\dao\MovieCategoryDao::getAll();
+$restrictions = \model\dao\AgeRestrictionDao::getAll();
+$halls = \model\dao\AdminDao::getAllHalls();
+$cinemas = \model\dao\CinemaDao::getAll();
+$periods= \model\dao\PeriodsDao::getAllPeriods();
 ?>
 
 <!doctype html>
@@ -20,6 +25,11 @@ $movies = \model\dao\AdminDao::getAllMovies();
 <div class="container">
     <h1>Admin Panel</h1>
     <br><br>
+    <div>
+        <form action="?target=admin&action=logout" method="post">
+            <input type="submit" name="logout" value="Log out">
+        </form>
+    </div>
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item active">
             <a class="nav-link" data-toggle="tab" href="#movie_list">List all movies</a>
@@ -28,7 +38,10 @@ $movies = \model\dao\AdminDao::getAllMovies();
             <a class="nav-link" data-toggle="tab" href="#movie-insert">Insert Movie</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#insertRest">Insert Restriction</a>
+            <a class="nav-link" data-toggle="tab" href="#insertInDB">Insert In DB</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#insertProgram">Insert Program</a>
         </li>
 
     </ul>
@@ -50,13 +63,9 @@ $movies = \model\dao\AdminDao::getAllMovies();
                         <td>Movie Type</td>
                         <td>
                             <select name="movie_type" id="movie_type">
-                                <option value="1">Action</option>
-                                <option value="2">Animation</option>
-                                <option value="3">Comedy</option>
-                                <option value="4">Drama</option>
-                                <option value="5">Adventure</option>
-                                <option value="6">Horror</option>
-                                <option value="7">Romance</option>
+                                <?php foreach($movie_types as $movie_type){  ?>
+                                <option value="<?php echo $movie_type->getCategoryId(); ?>"><?php echo $movie_type->getMovieType(); ?></option>
+                             <?php   }  ?>
                             </select>
                         </td>
                     </tr>
@@ -72,23 +81,23 @@ $movies = \model\dao\AdminDao::getAllMovies();
                         <td>Age Restriction</td>
                         <td>
                             <select name="age_rest" id="" required>
-                                <option value="1">B-Kids</option>
-                                <option value="2">C-Kids up to 16 years</option>
-                                <option value="3">D-Adults over 18 years</option>
+                                <?php foreach ($restrictions as $restriction)  {    ?>
+                                <option value="<?php echo $restriction->getAgeRestId();?>"><?php echo $restriction->getRestriction();?></option>
+                                <?php }   ?>
                             </select>
                         </td>
                     </tr>
                     <tr>
                         <td>Price</td>
-                        <td><input name="price" type="number" required></td>
+                        <td><input name="price" type="number" min="0", max="50" required></td>
                     </tr>
                     <tr>
                         <td>Duration</td>
-                        <td><input name="duration" type="number" required></td>
+                        <td><input name="duration" type="number" min="0" max="5" required></td>
                     </tr>
                     <tr>
                         <td>Slot</td>
-                        <td><input name="slot" type="number" required></td>
+                        <td><input name="slot" type="number" min="0" required></td>
                     </tr>
                     <tr>
                         <td colspan="2"><input type="submit" name="insertMovie" value="Insert Movie"></td>
@@ -97,7 +106,7 @@ $movies = \model\dao\AdminDao::getAllMovies();
             </form>
         </div>
 
-        <div id="insertRest" class="container tab-pane fade">
+        <div id="insertInDB" class="container tab-pane fade">
             <form action="?target=admin&action=insertRestriction" method="post">
                 <h2>Insert Age Restriction</h2>
                 <br><br>
@@ -107,7 +116,36 @@ $movies = \model\dao\AdminDao::getAllMovies();
                         <td><input type="text" name="restriction" required></td>
                     </tr>
                     <tr>
-                        <td><input type="submit" name="insertRestriction" value="Insert Restriction"></td>
+                        <td><input type="submit" name="insertRestriction" value="Insert Restriction" placeholder="like A, C, D"></td>
+                    </tr>
+                </table>
+            </form>
+            <br>
+            <form action="?target=admin&action=insertHallType" method="post">
+                <table>
+                    <tr>
+                        <td>Insert Hall Type</td>
+                        <td><input type="text" name="hall_type" required></td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" name="insertHallType" value="Insert Hall Type" placeholder=" like 2D, 3D, IMAX.."></td>
+                    </tr>
+                </table>
+            </form>
+            <br>
+            <form action="?target=admin&action=insertPeriod" method="post">
+                <table>
+                    <tr><th>Projection period</th></tr>
+                    <tr>
+                        <td>Insert Projection start date</td>
+                        <td><input type="date" name="start_date" required></td>
+                    </tr>
+                    <tr>
+                        <td>Insert Projection end date</td>
+                        <td><input type="date" name="end_date" required></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><input type="submit" name="insertPeriod" value="Insert Period" placeholder=" like 2D, 3D, IMAX.."></td>
                     </tr>
                 </table>
             </form>
@@ -154,6 +192,60 @@ $movies = \model\dao\AdminDao::getAllMovies();
                 <?php } ?>
             </table>
         </div>
+
+        <div  id="insertProgram" class="container tab-pane fade">
+            <h2>Insert Program</h2>
+            <br>
+            <form action="?target=admin&action=insertProgram" method="post">
+                <table>
+                    <tr>
+                        <td>Select Hall</td>
+                        <td><select name="hall_id" id="">
+                            <?php foreach ($halls as $hall){  ?>
+                                <option value="<?php echo $hall->getHallId();?>"> <?php echo $hall->getHallId() . "-" . $hall->getHallType(). "-" . $hall->getCinema();?></option>
+                            <?php  }  ?>
+                        </td>
+                        </select>
+                    </tr>
+                    <tr>
+                        <td>Select Movie</td>
+                        <td><select name="movie_id" id="">
+                                <?php foreach ($movies as $movie){  ?>
+                                    <option value="<?php echo $movie->getMovieId(); ?>"> <?php echo $movie->getName();?></option>
+                                <?php  }  ?>
+                        </td>
+                        </select>
+                    </tr>
+                    <tr>
+                        <td>Hour Start</td>
+                        <td><input type="time" name="hourStart"></td>
+                    </tr>
+                    <tr>
+                        <td>Period</td>
+                        <td>
+                            <select name="period_id" id="">
+                                <?php foreach ($periods as $period){ ?>
+                                    <option value="<?php echo $period->getPeriodId(); ?>"> <?php echo $period->getStartDate() . " - " . $period->getEndDate();?></option>
+                                <?php } ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Screening</td>
+                        <td>
+                            <input type="number" name="screening" min="0">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="submit" name="insertProgram" value="Insert Program">
+                        </td>
+                    </tr>
+                </table>
+
+            </form>
+        </div>
+
     </div>
 </div>
 
