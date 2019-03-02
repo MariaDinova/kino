@@ -14,13 +14,40 @@ use model\dao\ProgramDao;
 class ProgramController {
 
     public function list(){
+
         $day = isset($_GET["day"]) ?  $_GET["day"] : date("Y-m-d",mktime(0, 0, 0, date("m")  , date("d"), date("Y")));
-        $programByDate = ProgramDao::getAllByDate($day);
+
+        $msg = "";
+        $hall = "all";
+        if(isset($_GET["hall"]) && $_GET["hall"] != "all"){
+            $hall = $_GET["hall"];
+
+            if(ProgramDao::getAllByDateHall($day, $hall) != null){
+                $programByDate = ProgramDao::getAllByDateHall($day, $hall);
+            }
+            else {
+                $msg .= "hall not exists";
+                $programByDate = null;
+            }
+
+        }
+        else {
+            if(ProgramDao::getAllByDate($day) != null){
+                $programByDate = ProgramDao::getAllByDate($day);
+            }
+            else {
+                $msg .= "day not exists";
+                $programByDate = null;
+            }
+
+        }
 
         require (URI.'smartyHeader.php');
+        $smarty->assign('msg', $msg);
         $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
         $smarty->assign('BASE_PATH', BASE_PATH);
         $smarty->assign('programs', $programByDate);
+        $smarty->assign('hall', $hall);
         $smarty->assign('weekArr', $this->getWeekArray());
         $smarty->display('programList.tpl');
     }
@@ -35,7 +62,6 @@ class ProgramController {
 
         }
         return $weekArr;
-
     }
 
 

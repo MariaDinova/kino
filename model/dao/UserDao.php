@@ -37,13 +37,10 @@ class UserDao {
 
         if($stmt->rowCount()== 0){
             return null;
-        }else {
+        }
+        else {
             $result = $stmt->fetch(\PDO::FETCH_ASSOC);
             return $result["password"];
         }
-    }
-
-    public function updateUser (User $user){
-
     }
 }

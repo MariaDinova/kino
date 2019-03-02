@@ -7,10 +7,11 @@
 <section id="days">
 {foreach from=$weekArr key=arrayIndex item=day}
 
-        <div><a href="{$BASE_PATH}?target=program&action=list&day={$arrayIndex}"> {$day}</a></div>
+        <div><a href="{$BASE_PATH}?target=program&action=list&day={$arrayIndex}&hall={$hall}"> {$day}</a></div>
 
 {/foreach}
 </section>
+{$msg}
 <section id="programListing">
     {foreach from=$programs key=arrayIndex item=program}
 

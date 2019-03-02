@@ -14,17 +14,26 @@ use model\Halls;
 
 class HallsController {
     public function list(){
+        $msg = "";
         $allHalls = [];
 
         if(isset($_GET["cinema"])){
             $cinema=$_GET["cinema"];
-            $allHalls = HallsDao::getByCinema($cinema);
+            if(HallsDao::getByCinema($cinema) != NULL){
+                $allHalls = HallsDao::getByCinema($cinema);
+            }
+            else {
+                $msg .="cinema not exists";
+                $allHalls = null;
+            }
+
         } else {
             $allHalls = HallsDao::getAll();
         }
 
 
         require (URI.'smartyHeader.php');
+        $smarty->assign('msg', $msg);
         $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
         $smarty->assign('BASE_PATH', BASE_PATH);
         $smarty->assign('halls', $allHalls);

@@ -1,5 +1,6 @@
 <?php
 $movies = \model\dao\AdminDao::getAllMovies();
+
 ?>
 
 <!doctype html>
