@@ -25,7 +25,7 @@ class AdminController{
     public function insertMovie(){
         $error = null;
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if ($_POST["insertMovie"]) {
+            if (isset($_POST["insertMovie"])) {
                 if (!empty($_POST["movie_name"])) {
                     $movie_name = $_POST["movie_name"];
                 } else {
@@ -126,7 +126,7 @@ class AdminController{
 
     public function insertHallType(){
             if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-                if($_POST["insertHallType"]){
+                if(isset($_POST["insertHallType"])){
                     if(!empty($_POST["hall_type"])) {
                         $hallType = $_POST["hall_type"];
                         AdminDao::insertHallType($hallType);
@@ -159,7 +159,7 @@ class AdminController{
 
     public static function insertProgram(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST'){
-            if($_POST["insertProgram"]){
+            if(isset($_POST["insertProgram"])){
                 $hall_id = $_POST["hall_id"];
                 $movie_id = $_POST["movie_id"];
                 $hourStart = $_POST["hourStart"];
