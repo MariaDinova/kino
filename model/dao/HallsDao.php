@@ -28,12 +28,19 @@ class HallsDao {
         LEFT JOIN hall_types ON halls.hall_type_id=hall_types.hall_type_id
         WHERE halls.cinema_id=?");
         $stmt->execute(array($cinema));
-        $halls = [];
-        while ($row = $stmt->fetch(\PDO::FETCH_OBJ)) {
-            $hall = new Halls($row->hall_id,$row->cinema_id,$row->type,$row->seats);
-            $halls[]=$hall;
+
+        if($stmt->rowCount() == 0){
+            return null;
         }
-        return $halls;
+        else {
+            $halls = [];
+            while ($row = $stmt->fetch(\PDO::FETCH_OBJ)) {
+                $hall = new Halls($row->hall_id,$row->cinema_id,$row->type,$row->seats);
+                $halls[]=$hall;
+            }
+            return $halls;
+        }
+
     }
 
 }

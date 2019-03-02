@@ -8,41 +8,55 @@ use model\User;
 class UserController {
 
     public function register (){
+        $msg="";
         if (isset($_POST["register"])) {
 
-            //TODO validate inputs from post
+            if ($this->isValidInput($_POST)){
+                $firstName = $_POST["firstName"];
+                $lastName = $_POST["lastName"];
+                $email = $_POST["email"];
+                $password = password_hash(trim($_POST["password"]), PASSWORD_BCRYPT);
+                $age = $_POST["age"];
+                $isAdmin = null;
 
-            $firstName = $_POST["firstName"];
-            $lastName = $_POST["lastName"];
-            $email = $_POST["email"];
-            $password = password_hash(trim($_POST["password"]), PASSWORD_BCRYPT);
-            $age = $_POST["age"];
-            $isAdmin = null;
+                $user = UserDao::getByEmail($email);
 
-            $user = UserDao::getByEmail($email);
+                if($user != null){
 
-            if($user != null){
-                header("HTTP/1.1 400 User already exists");
+                    $msg .= "User already exists";
+                    require (URI.'smartyHeader.php');
+                    $smarty->assign('msg', $msg);
+                    $smarty->assign('BASE_PATH', BASE_PATH);
+                    $smarty->display('register.tpl');
 
-                //TODO header location to registerError.html where is register with red fields
+                }
+                else {
+                    $newUser = new User(null, $firstName,$lastName,$email,$password,$age,$isAdmin);
+                    UserDao::addUser($newUser);
+                    $_SESSION["user"] = $newUser;
+
+                    require (URI.'smartyHeader.php');
+                    $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
+                    $smarty->assign('BASE_PATH', BASE_PATH);
+                    $smarty->assign('msg', $msg);
+                    $smarty->display('index-view.tpl');
+                }
             }
             else {
-                $newUser = new User(null, $firstName,$lastName,$email,$password,$age,$isAdmin);
-                UserDao::addUser($newUser);
-                $_SESSION["user"] = $newUser;
-
+                $msg .= "Input is not correct";
                 require (URI.'smartyHeader.php');
-
-                $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
+                $smarty->assign('msg', $msg);
                 $smarty->assign('BASE_PATH', BASE_PATH);
-                $smarty->display('index-view.tpl');
+                $smarty->display('register.tpl');
             }
+
+
         }
         else {
-
             require (URI.'smartyHeader.php');
             $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
             $smarty->assign('BASE_PATH', BASE_PATH);
+            $smarty->assign('msg', $msg);
             $smarty->display('register.tpl');
         }
 
@@ -58,35 +72,97 @@ class UserController {
 
 
     public function login(){
+        $msg = "";
         if(isset($_POST["login"])){
+
             $email = $_POST["email"];
-            $password = $_POST["password"];
+            $password = trim($_POST["password"]);
             $realPassword = UserDao::getPassByEmail($email);
+
             if($realPassword == null){
-                //TODO header location to loginError.html
-                echo "Invalid password";
-            } else{
+                $msg .= "Invalid email";
+                require (URI.'smartyHeader.php');
+                $smarty->assign('msg', $msg);
+                $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
+                $smarty->assign('BASE_PATH', BASE_PATH);
+                $smarty->display('login.tpl');
+            }
+            else{
                 if(password_verify($password, $realPassword)) {
                     $user = UserDao::getByEmail($email);
                     $_SESSION["user"]= $user;
+
                     if($user->getIsAdmin() != null){
                         $_SESSION["user"]= $user;
-                        //header("Location: view/adminPanel.php");
                         include_once URI . "view/adminPanel.php";
-                    }else {
+                    }
+                    else {
                         require (URI.'smartyHeader.php');
+                        $smarty->assign('msg', $msg);
                         $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
                         $smarty->assign('BASE_PATH', BASE_PATH);
                         $smarty->display('index-view.tpl');
                     }
-
+                }
+                else {
+                    $msg .= "Invalid password";
+                    require (URI.'smartyHeader.php');
+                    $smarty->assign('msg', $msg);
+                    $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
+                    $smarty->assign('BASE_PATH', BASE_PATH);
+                    $smarty->display('login.tpl');
                 }
             }
-        } else {
+        }
+        else {
             require (URI.'smartyHeader.php');
+            $smarty->assign('msg', $msg);
             $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
             $smarty->assign('BASE_PATH', BASE_PATH);
             $smarty->display('login.tpl');
         }
+    }
+
+
+
+
+    private function isValidString ($string){
+        $isValid = false;
+
+        if(isset($string) && trim($string) != ""){
+            $isValid = true;
+        }
+        return $isValid;
+    }
+
+    private function isValidEmail ($email){
+        $isValid = false;
+
+        if (isset($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $isValid=true;
+        }
+        return $isValid;
+    }
+
+    private function isValidAge ($age){
+        $isValid = false;
+        if(isset($age) && $age == intval($age) && $age > 0){
+            $isValid = true;
+        }
+        return $isValid;
+    }
+
+    private function isValidInput ($input){
+
+        foreach ($input as $key => $value) {
+            $$key = $value;
+        }
+
+        $isValid = false;
+        if ($this->isValidString($firstName) && $this->isValidString($lastName) && $this->isValidString($password)
+                    && $this->isValidEmail($email) && $this->isValidAge($age)){
+            $isValid = true;
+        }
+        return $isValid;
     }
 }
