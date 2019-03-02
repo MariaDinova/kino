@@ -116,11 +116,11 @@ class AdminDao{
      }
  }
 
- public static function insertHall($cinema_id, $hallType_id, $seats){
+ public static function insertHall($cinema_id, $hallType_id, $seats, $hall_rows){
      try {
          $pdo = DBConnection::getSingletonPDO();
-         $stmt = $pdo->prepare("INSERT INTO halls (cinema_id, hall_type_id, seats) VALUES (?,?,?)");
-         $stmt->execute(array($cinema_id, $hallType_id, $seats));
+         $stmt = $pdo->prepare("INSERT INTO halls (cinema_id, hall_type_id, seats, hall_rows) VALUES (?, ?, ?, ?)");
+         $stmt->execute(array($cinema_id, $hallType_id, $seats, $hall_rows));
          return true;
      }catch (\PDOException $e){
          echo "Error" . $e->getMessage();
