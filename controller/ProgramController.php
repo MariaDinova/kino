@@ -48,6 +48,7 @@ class ProgramController {
         $smarty->assign('BASE_PATH', BASE_PATH);
         $smarty->assign('programs', $programByDate);
         $smarty->assign('hall', $hall);
+        $smarty->assign('date', $day);
         $smarty->assign('weekArr', $this->getWeekArray());
         $smarty->display('programList.tpl');
     }

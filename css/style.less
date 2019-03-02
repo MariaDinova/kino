@@ -100,3 +100,68 @@ a, a:link {
 
   }
 }
+
+//seats
+.checkbox input[type="checkbox"] {
+  opacity: 0;
+  height: 21px;
+  width: 21px;
+}
+
+.checkbox label {
+  position: relative;
+  display: inline-block;
+}
+
+.checkbox label::before,
+.checkbox label::after {
+  position: absolute;
+  content: "";
+
+  /*Needed for the line-height to take effect*/
+  display: inline-block;
+}
+
+/*Outer box of the fake checkbox*/
+.checkbox label::before{
+  height: 23.5px;
+  width: 23.5px;
+  top: -23px;
+  left: -26px;
+
+  background: url("../img/chair_free.svg") no-repeat center center;
+}
+
+.checkbox label.taken::before{
+  height: 23.5px;
+  width: 23.5px;
+  top: -23px;
+  left: -26px;
+  background: url("../img/chair_taken.svg") no-repeat center center;
+}
+
+/*Checkmark of the fake checkbox*/
+.checkbox label::after {
+  height: 23.5px;
+  width: 23.5px;
+}
+
+/*Hide the checkmark by default*/
+.checkbox input[type="checkbox"] + label::after {
+  content: none;
+}
+
+/*Unhide on the checked state*/
+.checkbox input[type="checkbox"]:checked + label::after {
+  content: "";
+  top: -23px;
+  left: -26px;
+  background: url("../img/chair_selected.svg") no-repeat center center;
+}
+
+.checkbox input[type="checkbox"]:checked + label.taken::after {
+  content: "";
+  top: -23px;
+  left: -26px;
+  background: url("../img/chair_taken.svg") no-repeat center center;
+}

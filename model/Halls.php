@@ -8,6 +8,7 @@ class Halls {
     private $cinema;
     private $hallType;
     private $seats;
+    private $hallRows;
 
     /**
      * Halls constructor.
@@ -15,13 +16,15 @@ class Halls {
      * @param $cinema
      * @param $hallType
      * @param $seats
+     * @param $hallRows
      */
-    public function __construct($hall_id, $cinema, $hallType, $seats)
+    public function __construct($hall_id, $cinema, $hallType, $seats, $hallRows)
     {
         $this->hall_id = $hall_id;
         $this->cinema = $cinema;
         $this->hallType = $hallType;
         $this->seats = $seats;
+        $this->hallRows = $hallRows;
     }
 
     /**
@@ -54,6 +57,14 @@ class Halls {
     public function getSeats()
     {
         return $this->seats;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHallRows()
+    {
+        return $this->hallRows;
     }
 
 

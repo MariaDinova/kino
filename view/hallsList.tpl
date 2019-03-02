@@ -8,7 +8,7 @@
 <table>
     {foreach from=$halls key=arrayIndex item=hall}
             <div><a href="{$BASE_PATH}?target=program&action=list&hall={$hall->getHallId()}">
-                    {$hall->getHallType()} {$hall->getSeats()}
+                    {$hall->getHallType()}
                 </a>
             </div>
     {/foreach}

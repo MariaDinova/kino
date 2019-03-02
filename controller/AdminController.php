@@ -90,6 +90,7 @@ class AdminController{
                 }
             }
         }else{
+
             include_once URI . "view/adminPanel.php";
         }
 
