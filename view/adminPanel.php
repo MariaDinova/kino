@@ -1,5 +1,10 @@
 <?php
 $movies = \model\dao\AdminDao::getAllMovies();
+$movie_types = \model\dao\MovieCategoryDao::getAll();
+$restrictions = \model\dao\AgeRestrictionDao::getAll();
+$halls = \model\dao\AdminDao::getAllHalls();
+$cinemas = \model\dao\CinemaDao::getAll();
+$periods= \model\dao\PeriodsDao::getAllPeriods();
 ?>
 
 <!doctype html>
