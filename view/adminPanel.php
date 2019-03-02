@@ -21,15 +21,20 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
     <link rel="stylesheet" href="view/css/adminPanelCss.css">
 </head>
 <body>
+<br>
+<img id="logo" src="./img/logo.png" alt="" class="mx-auto d-block">
+<br>
 
 <div class="container">
     <h1>Admin Panel</h1>
-    <br><br>
+    <h2>Welcome, <?php echo $_SESSION["user"]->getFirstName(); ?></h2>
     <div>
         <form action="?target=admin&action=logout" method="post">
             <input type="submit" name="logout" value="Log out">
         </form>
     </div>
+    <br>
+
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item active">
             <a class="nav-link" data-toggle="tab" href="#movie_list">List all movies</a>

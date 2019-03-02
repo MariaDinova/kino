@@ -98,7 +98,7 @@ class AdminController{
 
     public function insertRestriction(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if ($_POST["insertRestriction"]) {
+            if (isset($_POST["insertRestriction"])) {
                 if (!empty($_POST["restriction"])) {
                     $restriction = $_POST["restriction"];
                     AdminDao::insertRestriction($restriction);
@@ -141,7 +141,7 @@ class AdminController{
 
     public static function insertPeriod(){
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if($_POST["insertPeriod"]){
+            if(isset($_POST["insertPeriod"])){
                 if(!empty($_POST["start_date"])){
                     $startDate = $_POST["start_date"];
                     if(!empty($_POST["end_date"])){
