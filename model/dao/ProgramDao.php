@@ -30,8 +30,10 @@ class ProgramDao {
             while ($row = $stmt->fetch(\PDO::FETCH_OBJ)) {
                 $programByDate = [];
 
+                list($hour, $minute) = explode(":", $row->hour_start);
+
                 for ($i = 0; $i < $row->screening; $i++){
-                    $programByDate[] = date('H:i',mktime($row->hour_start, 0+($i*($row->slot)), 0, 01, 02, 2001));
+                    $programByDate[] = date('H:i',mktime($hour, $minute+($i*($row->slot)), 0, 01, 02, 2001));
                 }
 
                 $program = new Program ($row->program_id,$row->type, $row->movie_name,$row->cinema_name,
@@ -63,9 +65,10 @@ class ProgramDao {
             $programs = [];
             while ($row = $stmt->fetch(\PDO::FETCH_OBJ)) {
                 $programByDate = [];
+                list($hour, $minute) = explode(":", $row->hour_start);
 
                 for ($i = 0; $i < $row->screening; $i++){
-                    $programByDate[] = date('H:i',mktime($row->hour_start, 0+($i*($row->slot)), 0, 01, 02, 2001));
+                    $programByDate[] = date('H:i',mktime($hour, $minute+($i*($row->slot)), 0, 01, 02, 2001));
                 }
 
                 $program = new Program ($row->program_id,$row->type, $row->movie_name,$row->cinema_name,
