@@ -12,46 +12,99 @@ use model\User;
 class TicketsController {
 
     public function showSeats (){
-//TODO validate GET
-        if (isset($_GET["id"])){
+        $msg = "";
+        if (isset($_GET["id"], $_GET["slot"], $_GET["day"])){
             $programId = $_GET["id"];
+            $slot = $_GET["slot"];
+            $date = $_GET["day"];
             $result = TicketsDao::getRowsAndSeats($programId);
-            $rows = $result["hall_rows"];
-            $seatsPerRow = $result["seats"];
+//TODO check if slot and day are valid
+            $taken = TicketsDao::getTakenSeats($programId, $slot, $date);
 
-            $taken = TicketsDao::getTakenSeats($programId, $_GET["slot"], $_GET["day"]);
-            $takenSeats =[];
-            foreach ($taken AS $take){
-                if(!isset($takenSeats[$take->getRow()])){
-                    $takenSeats[$take->getRow()] = [];
+            if($result != null){
+                $rows = $this->strToArr($result["hall_rows"]);
+                $seatsPerRow = $this->strToArr($result["seats"]);
+                $takenSeats =[];
+                foreach ($taken AS $take){
+                    if(!isset($takenSeats[$take->getRow()])){
+                        $takenSeats[$take->getRow()] = [];
+                    }
+                    $takenSeats[$take->getRow()][$take->getSeat()] = 1;
                 }
-                $takenSeats[$take->getRow()][$take->getSeat()] = 1;
+
+                require (URI.'smartyHeader.php');
+                $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
+                $smarty->assign('BASE_PATH', BASE_PATH);
+                $smarty->assign('id', $_GET["id"]);
+                $smarty->assign('slot', $_GET["slot"]);
+                $smarty->assign('day', $_GET["day"]);
+                $smarty->assign('rows', $rows);
+                $smarty->assign('seats', $seatsPerRow);
+                $smarty->assign('takenSeats', $takenSeats);
+                $smarty->display('showSeats.tpl');
             }
-
-            require_once URI."view/showSeats.php";
+            else {
+                require (URI.'smartyHeader.php');
+                $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
+                $smarty->assign('BASE_PATH', BASE_PATH);
+                $smarty->display('badValues.tpl');
+            }
         }
+        else {
+            require (URI.'smartyHeader.php');
+            $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
+            $smarty->assign('BASE_PATH', BASE_PATH);
+            $smarty->display('badValues.tpl');
+        }
+    }
 
+
+
+    public function buyTickets (){
+
+        if (!isset($_SESSION["user"])){
+            //TODO user is not logged
+        }
+        else {
+            //TODO if $_POST["day"], $_POST["slot"], $_POST["seat"]  is valid
+            if (isset($_POST, $_POST["day"], $_POST["programId"], $_POST["slot"], $_POST["seat"])){
+                $date = $_POST["day"];
+                $programId = $_POST["programId"];
+                $slot = $_POST["slot"];
+                $seats = $_POST["seat"];
+                $result = TicketsDao::getPrice($programId);
+                $price = $result["price"];
+                $userId = $_SESSION["user"]->getId();;
+                $result = TicketsDao::buyTickets($date, $price, $userId, $programId, $slot, $seats);
+                if ($result == null){
+
+                    require (URI.'smartyHeader.php');
+                    $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
+                    $smarty->assign('BASE_PATH', BASE_PATH);
+                    $smarty->display('badValues.tpl');
+                }
+                else {
+                    require (URI.'smartyHeader.php');
+                    $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
+                    $smarty->assign('BASE_PATH', BASE_PATH);
+                    $smarty->display('myTickets.tpl');
+                }
+            }
+            else {
+                require (URI.'smartyHeader.php');
+                $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
+                $smarty->assign('BASE_PATH', BASE_PATH);
+                $smarty->display('badValues.tpl');
+            }
+        }
 
     }
 
-    public function buyTickets (){
-        if (isset($_POST)){
-
-            //TODO take price and user_id
-            $date = $_POST["day"];
-            $programId = $_POST["programId"];
-            $slot = $_POST["slot"];
-            $seats = $_POST["seat"];
-            $price = 10;
-            $userId = 5;
-//TODO add something
-            $result = TicketsDao::buyTickets($date, $price, $userId, $programId, $slot, $seats);
-            if ($result == null){
-                echo "error";
-            }
-            else {
-                echo "uraa";
-            }
+    public function strToArr ($string){
+        $result = [];
+        for ($i = 0; $i < $string; $i++){
+            $result[]= 0;
         }
+        return $result;
     }
 }

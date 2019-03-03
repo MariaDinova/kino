@@ -41,6 +41,7 @@ class TicketsDao {
 
         for ($i = 0; $i < count($seats); $i++){
             list ($row, $seat) = explode(':', $seats[$i]);
+            //TODO escape values
             $values[]= "('$date', $price, $userId, $slot, $programId, $row, $seat)";
 
         }
@@ -54,7 +55,14 @@ class TicketsDao {
         catch (\PDOException $e){
             return null;
         }
+    }
 
+    public static function getPrice ($programId){
+        $pdo = DBConnection::getSingletonPDO();
 
+        $stmt = $pdo->prepare("SELECT price FROM movies LEFT JOIN programs ON programs.movie_id=movies.movie_id
+                                WHERE programs.program_id=?");
+        $stmt->execute(array($programId));
+        return $stmt->fetch();
     }
 }

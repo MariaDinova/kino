@@ -1,4 +1,5 @@
 {include file="helpers/head.tpl"}
+{include file="helpers/headerLinks.tpl"}
 {$msg}
 <form action="{$BASE_PATH}?target=user&action=login" method="post">
     <table>

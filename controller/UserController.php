@@ -72,11 +72,24 @@ class UserController {
 
 
     public function login(){
-        $msg = "";
-        if(isset($_POST["login"])){
 
+        if (!isset($_GET['response']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST["email"];
             $password = trim($_POST["password"]);
+        }
+        else if (isset($_GET['response'])) {
+            $json_str = file_get_contents('php://input');
+            $requestBody = json_decode($json_str, true);
+
+            $email = $requestBody["email"];
+            $password = trim($requestBody["password"]);
+        }
+
+
+        $msg = "";
+        //post request
+        if(isset($email)){
+
             $realPassword = UserDao::getPassByEmail($email);
 
             if($realPassword == null){
@@ -92,6 +105,13 @@ class UserController {
                     $user = UserDao::getByEmail($email);
                     $_SESSION["user"]= $user;
 
+                    if (isset($_GET['response']) && $_GET['response']=="json") {
+                        $response = array();
+                        $response["success"]= "true";
+                        echo  json_encode($response);
+                        die();
+                    }
+
                     if($user->getIsAdmin() != null){
                         $_SESSION["user"]= $user;
                         include_once URI . "view/adminPanel.php";
@@ -105,6 +125,13 @@ class UserController {
                     }
                 }
                 else {
+                    if (isset($_GET['response']) && $_GET['response']=="json") {
+                        $response = array();
+                        $response["success"]= "false";
+                        echo  json_encode($response);
+                        die();
+                    }
+
                     $msg .= "Invalid password";
                     require (URI.'smartyHeader.php');
                     $smarty->assign('msg', $msg);
