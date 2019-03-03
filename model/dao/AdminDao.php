@@ -34,7 +34,7 @@ class AdminDao{
     public static function getAllHalls(){
 
         $pdo = DBConnection::getSingletonPDO();
-        $stmt = $pdo->prepare("SELECT halls.hall_id, cinema.cinema_name, hall_types.type, halls.seats 
+        $stmt = $pdo->prepare("SELECT halls.hall_id, cinema.cinema_name, hall_types.type, halls.seats, halls.hall_rows 
                                         FROM halls
                                         LEFT JOIN hall_types 
                                         ON halls.hall_type_id=hall_types.hall_type_id
@@ -43,7 +43,7 @@ class AdminDao{
         $stmt->execute();
         $halls = [];
         while ($row = $stmt->fetch(\PDO::FETCH_OBJ)) {
-            $hall = new Halls($row->hall_id,$row->cinema_name,$row->type,$row->seats);
+            $hall = new Halls($row->hall_id,$row->cinema_name,$row->type,$row->seats, $row->hall_rows);
             $halls[]=$hall;
         }
         return $halls;
@@ -72,6 +72,24 @@ class AdminDao{
             $pdo = DBConnection::getSingletonPDO();
             $stmt = $pdo->prepare("INSERT INTO age_restriction (restriction) VALUES (?)");
             $stmt->execute(array($restriction));
+            return true;
+        }catch (\PDOException $e){
+            echo "Error" . $e->getMessage();
+            return false;
+        }
+   }
+
+
+   public static function updateMovie($movie_id, $movie_name, $description, $movie_type_id, $trailer_uri, $age_rest_id, $price, $duration, $slot){
+        $pdo = DBConnection::getSingletonPDO();
+        try {
+            $stmt = $pdo->prepare("UPDATE movies 
+                                        SET movie_name = ?, description = ?, movie_type_id = ?,
+                                       trailer_uri = ?, age_rest_id = ?,
+                                         price = ?, duration = ?, slot = ?
+                                        WHERE movie_id = ?");
+            $stmt->execute(array($movie_name, $description, $movie_type_id,
+                $trailer_uri, $age_rest_id, $price, $duration, $slot, $movie_id));
             return true;
         }catch (\PDOException $e){
             echo "Error" . $e->getMessage();

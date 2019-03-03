@@ -57,26 +57,32 @@ class AdminController{
 
                 $age_restriction = $_POST["age_rest"];
 
-                if (!empty($_POST["price"]) && is_int($_POST["price"])) {
+                if (!empty($_POST["price"])) {
                     if($_POST["price"] > 0) {
-                        $price = $_POST["price"];
+                        $price = intval(($_POST["price"]));
+                    }else {
+                        $error = "Must be a positive number";
                     }
                 } else {
                     $error = "Required field and must be a positive number";
                 }
-                if (!empty($_POST["duration"]) && is_int($_POST["duration"])) {
+                if (!empty($_POST["duration"])) {
                     if($_POST["duration"] > 0) {
-                        $duration = $_POST["duration"];
+                        $duration = intval($_POST["duration"]);
+                    }else {
+                        $error = "Must be a positive number";
                     }
                 } else {
                     $error = "Required field and must be a number";
                 }
-                if (!empty($_POST["slot"]) && is_int($_POST["slot"])) {
+                if (!empty($_POST["slot"])) {
                     if($_POST["slot"] >= 0) {
-                        $slot = $_POST["slot"];
+                        $slot = intval($_POST["slot"]);
+                    }else {
+                        $error = "Must be a positive number";
                     }
                 } else {
-                    $error = "Required field and must be a number";
+                    $error = "Required field and must be a positive number";
                 }
 
 
@@ -94,6 +100,50 @@ class AdminController{
             include_once URI . "view/adminPanel.php";
         }
 
+    }
+
+
+    public function updateMovie(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $error = "";
+            if(isset($_POST["updateMovie"])){
+                $movie_id = $_POST["movie_id"];
+                $movie_name = $_POST["name"];
+                $movie_description = $_POST["description"];
+                $movie_type = $_POST["movie_type"];
+                $movie_trailer = $_POST["trailer"];
+                $age_restriction = $_POST["age_rest"];
+
+                if($_POST["price"] > 0) {
+                    $price = intval(($_POST["price"]));
+                }else {
+                    $error = "Must be a positive number";
+                }
+
+                if($_POST["duration"] > 0) {
+                    $duration = intval($_POST["duration"]);
+                }else {
+                    $error = "Must be a positive number";
+                }
+
+                if($_POST["slot"] >= 0) {
+                    $slot = intval($_POST["slot"]);
+                }else {
+                    $error = "Must be a positive number";
+                }
+
+                if (strlen($error) == 0) {
+                    AdminDao::updateMovie($movie_id, $movie_name, $movie_description,
+                                          $movie_type, $movie_trailer, $age_restriction,
+                                          $price, $duration, $slot);
+                    include_once URI . "view/adminPanel.php";
+                } else {
+                    echo "<h3>" . $error . "</h3>";
+                    include_once URI . "view/adminPanel.php";
+
+                }
+            }
+        }
     }
 
 

@@ -48,6 +48,9 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#insertProgram">Insert Program</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#editMovie">Edit Movie</a>
+        </li>
 
     </ul>
     <div class="tab-content">
@@ -181,7 +184,7 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
                             <img width="100px" src="<?php echo $movie->getImageUri(); ?>" alt="Film-image">
                         </td>
                         <td>
-                            <iframe width="450" height="225" src="<?php echo $movie->getTrailerUri(); ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <iframe width="250" height="150" src="<?php echo $movie->getTrailerUri(); ?>" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </td>
                         <td><?php echo $movie->getAgeRest(); ?></td>
                         <td><?php echo $movie->getPrice(); ?></td>
@@ -190,12 +193,71 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
                         <td>
                             <form action="?target=admin&action=deleteMovie" method="post">
                                 <input type="hidden" name="movieId" value="<?php echo $movie->getMovieId(); ?>">
-                                <input type="submit" name="deleteMovie" value="Delete">
+                                <input type="submit" name="deleteMovie" value="Delete" class="btn btn-danger">
                             </form>
                         </td>
                     </tr>
                 <?php } ?>
             </table>
+        </div>
+
+        <div id="editMovie" class="container tab-pane fade">
+            <h4>Edit Movie</h4>
+            <?php foreach ($movies as $item) { ?>
+                <form action="?target=admin&action=updateMovie" method="post" class="float-left edit_movies">
+                    <table>
+                        <tr>
+                            <td class="text-warning">Movie name</td>
+                            <td><input  class="form-control" type="text" name="name" value="<?php echo $item->getName();?>"></td>
+                        </tr>
+                        <tr>
+                            <td class="text-warning">Movie description</td>
+                            <td><input class="form-control" type="text" name="description" value="<?php echo $item->getDescription();?>"></td>
+                        </tr>
+                        <tr>
+                            <td class="text-warning">Movie type</td>
+                            <td>
+                                <select  class="form-control" name="movie_type" id="movie_type">
+                                    <?php foreach($movie_types as $movie_type){  ?>
+                                        <option value="<?php echo $movie_type->getCategoryId(); ?>"><?php echo $movie_type->getMovieType();?></option>
+                                    <?php   }  ?>
+                                </select>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-warning">Movie trailer</td>
+                            <td><input  class="form-control" type="text" name="trailer" value="<?php echo $item->getTrailerUri();?>"></td>
+                        </tr>
+                        <tr>
+                            <td class="text-warning">Age restriction</td>
+                            <td>
+                                <select name="age_rest" id="" class="form-control">
+                                    <?php foreach ($restrictions as $restriction){ ?>
+                                        <option value="<?php echo $restriction->getAgeRestId();?>"><?php echo $restriction->getRestriction();?></option>
+                                    <?php } ?>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-warning">Price</td>
+                            <td><input  class="form-control" type="number" name="price" value="<?php echo $item->getPrice();?>"></td>
+                        </tr>
+                        <tr>
+                            <td class="text-warning">Movie duration</td>
+                            <td><input class="form-control" type="number" name="duration" value="<?php echo $item->getDuration();?>"></td>
+                        </tr>
+                        <tr>
+                            <td class="text-warning">Slot</td>
+                            <td><input class="form-control" type="text" name="slot" value="<?php echo $item->getSlot();?>"></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="hidden" name="movie_id" value="<?php echo $item->getMovieId()?>">
+                                <input type="submit" value="Edit Movie" name="updateMovie" class="btn btn-warning"></td></tr>
+                    </table>
+                </form>
+            <?php } ?>
         </div>
 
         <div  id="insertProgram" class="container tab-pane fade">
@@ -209,17 +271,18 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
                             <?php foreach ($halls as $hall){  ?>
                                 <option value="<?php echo $hall->getHallId();?>"> <?php echo $hall->getHallId() . "-" . $hall->getHallType(). "-" . $hall->getCinema();?></option>
                             <?php  }  ?>
+                            </select>
                         </td>
-                        </select>
                     </tr>
                     <tr>
                         <td>Select Movie</td>
-                        <td><select name="movie_id" id="">
+                        <td>
+                            <select name="movie_id" id="">
                                 <?php foreach ($movies as $movie){  ?>
                                     <option value="<?php echo $movie->getMovieId(); ?>"> <?php echo $movie->getName();?></option>
                                 <?php  }  ?>
+                            </select>
                         </td>
-                        </select>
                     </tr>
                     <tr>
                         <td>Hour Start</td>
