@@ -101,7 +101,7 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
                     </tr>
                     <tr>
                         <td>Duration</td>
-                        <td><input name="duration" type="number" min="0" max="5" required></td>
+                        <td><input name="duration" type="number" min="0" required></td>
                     </tr>
                     <tr>
                         <td>Slot</td>
