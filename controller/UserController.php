@@ -35,11 +35,7 @@ class UserController {
                     UserDao::addUser($newUser);
                     $_SESSION["user"] = $newUser;
 
-                    require (URI.'smartyHeader.php');
-                    $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
-                    $smarty->assign('BASE_PATH', BASE_PATH);
-                    $smarty->assign('msg', $msg);
-                    $smarty->display('index-view.tpl');
+                    header("Location: ".BASE_PATH);
                 }
             }
             else {
@@ -117,11 +113,7 @@ class UserController {
                         include_once URI . "view/adminPanel.php";
                     }
                     else {
-                        require (URI.'smartyHeader.php');
-                        $smarty->assign('msg', $msg);
-                        $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
-                        $smarty->assign('BASE_PATH', BASE_PATH);
-                        $smarty->display('index-view.tpl');
+                        header("Location: ".BASE_PATH);
                     }
                 }
                 else {

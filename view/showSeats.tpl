@@ -18,6 +18,7 @@
     </div>
 </div>
 <input type="hidden" id="isLoggedIn" value="{$isLoggedIn}">
+
 <form id="seats" action="{$BASE_PATH}?target=tickets&action=buyTickets" method="post" onsubmit="return validate()">
     <input type="hidden" name="programId" value="{$id}">
     <input type="hidden" name="slot" value="{$slot}">

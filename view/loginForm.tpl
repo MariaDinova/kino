@@ -5,6 +5,7 @@
         var email = document.getElementById('email').value;
         var password = document.getElementById('password').value;
         var data = { "email": email, "password": password };
+
         fetch('{$BASE_PATH}?target=user&action=login&response=json', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
@@ -31,6 +32,7 @@
     }
 </script>
 <a href="{$BASE_PATH}?target=user&action=register" >Register</a>
+
 <form id="postData" onsubmit="return postData()">
     <div id="error"></div>
     <table>

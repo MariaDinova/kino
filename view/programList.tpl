@@ -23,6 +23,7 @@
                     Зала: {$program->getHall()}<br>
                     Име: {$program->getMovie()}<br>
                     Кино: {$program->getCinema()}
+
                     <div class="slots">
                         {foreach from=$program->getProgramByDate() key=index item=slot}
                             <a href="{$BASE_PATH}?target=tickets&action=showSeats&id={$program->getProgramId()}&slot={$index}&day={$date}"><span>{$slot}</span></a>
