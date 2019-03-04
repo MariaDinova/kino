@@ -19,8 +19,7 @@ class Cinema {
      * @param $thumb
      * @param $img
      */
-    public function __construct($cinema_id, $name, $thumb, $img, $location)
-    {
+    public function __construct($cinema_id, $name, $thumb, $img, $location){
         $this->cinema_id = $cinema_id;
         $this->name = $name;
         $this->location = $location;
@@ -31,40 +30,35 @@ class Cinema {
     /**
      * @return mixed
      */
-    public function getCinemaId()
-    {
+    public function getCinemaId(){
         return $this->cinema_id;
     }
 
     /**
      * @return mixed
      */
-    public function getName()
-    {
+    public function getName(){
         return $this->name;
     }
 
     /**
      * @return mixed
      */
-    public function getLocation()
-    {
+    public function getLocation(){
         return $this->location;
     }
 
     /**
      * @return mixed
      */
-    public function getThumb()
-    {
+    public function getThumb(){
         return $this->thumb;
     }
 
     /**
      * @return mixed
      */
-    public function getImg()
-    {
+    public function getImg(){
         return $this->img;
     }
 

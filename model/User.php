@@ -96,6 +96,5 @@ class User {
     public function getIsAdmin() {
         return $this->isAdmin;
     }
-
-
 }
+

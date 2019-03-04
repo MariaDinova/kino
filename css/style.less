@@ -1,3 +1,5 @@
+@import (css) "reseter.css";
+
 body {
   background-image: url('./../img/bg-smoke.jpg');
   color: white;
@@ -7,6 +9,7 @@ body {
 header {
   text-align: center;
 }
+
 menu {
   background-color: black;
   display: flex;
@@ -14,8 +17,12 @@ menu {
 
   & > div {
     flex: 1;
+    text-align: center;
     a:link {
       line-height: 35px;
+      width: 100%;
+      display: block;
+      text-decoration: none
     }
   }
 }
@@ -62,6 +69,98 @@ a, a:link {
       text-decoration: none;
 
     }
+  }
+}
+
+#index {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  text-align: center;
+  justify-content: center;
+  margin-top: 30px;
+
+  section {
+    box-sizing: border-box;
+    width: 240px;
+    max-width: 240px;
+    padding: 20px;
+    border: 1px solid rgba(1, 1, 1, 0.67);
+  }
+
+  .image {
+    position: relative;
+    &:hover {
+      .onHover {
+        visibility: visible;
+        height: 200px;
+        transition: 0.35s ease-out all;
+      }
+    }
+  }
+  .trailer {
+    display: none;
+  }
+
+  .onHover {
+    display: flex;
+    visibility: hidden;
+    flex-flow: column;
+    background-color: #ff0000cc;
+    color: black;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 0px;
+
+    & > * {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      cursor: pointer;
+    }
+  }
+
+  .text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  img {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+#movieList {
+  background-color: black;
+  padding: 20px;
+  margin: 30px;
+
+  header {
+    font-size: 30px;
+  }
+
+  img {
+    width: 224px;
+  }
+
+  & > div {
+    display: flex;
+    flex-flow: row;
+
+    & > div:nth-child(2){
+      flex: 1;
+      padding: 20px;
+    }
+  }
+
+  .text {
+    width: 224px;
   }
 }
 

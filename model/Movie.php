@@ -29,8 +29,7 @@ class Movie{
      * @param $duration
      * @param $slot
      */
-    public function __construct($movie_id, $name, $description, $movie_type, $image_uri, $trailer_uri, $age_rest, $price, $duration, $slot)
-    {
+    public function __construct($movie_id, $name, $description, $movie_type, $image_uri, $trailer_uri, $age_rest, $price, $duration, $slot){
         $this->movie_id = $movie_id;
         $this->name = $name;
         $this->description = $description;
@@ -46,56 +45,49 @@ class Movie{
     /**
      * @return mixed
      */
-    public function getMovieId()
-    {
+    public function getMovieId(){
         return $this->movie_id;
     }
 
     /**
      * @return mixed
      */
-    public function getName()
-    {
+    public function getName(){
         return $this->name;
     }
 
     /**
      * @return mixed
      */
-    public function getDescription()
-    {
+    public function getDescription(){
         return $this->description;
     }
 
     /**
      * @return mixed
      */
-    public function getMovieType()
-    {
+    public function getMovieType(){
         return $this->movie_type;
     }
 
     /**
      * @return mixed
      */
-    public function getImageUri()
-    {
+    public function getImageUri(){
         return $this->image_uri;
     }
 
     /**
      * @return mixed
      */
-    public function getTrailerUri()
-    {
+    public function getTrailerUri(){
         return $this->trailer_uri;
     }
 
     /**
      * @return mixed
      */
-    public function getAgeRest()
-    {
+    public function getAgeRest(){
         return $this->age_rest;
     }
 
@@ -110,17 +102,15 @@ class Movie{
     /**
      * @return mixed
      */
-    public function getDuration()
-    {
+    public function getDuration(){
         return $this->duration;
     }
 
     /**
      * @return mixed
      */
-    public function getSlot()
-    {
+    public function getSlot(){
         return $this->slot;
     }
-
 }
+

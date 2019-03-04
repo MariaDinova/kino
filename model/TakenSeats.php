@@ -18,8 +18,7 @@ class TakenSeats {
      * @param $row
      * @param $seat
      */
-    public function __construct($row, $seat)
-    {
+    public function __construct($row, $seat){
         $this->row = $row;
         $this->seat = $seat;
     }
@@ -27,32 +26,29 @@ class TakenSeats {
     /**
      * @return mixed
      */
-    public function getRow()
-    {
+    public function getRow(){
         return $this->row;
     }
 
     /**
      * @param mixed $row
      */
-    public function setRow($row)
-    {
+    public function setRow($row){
         $this->row = $row;
     }
 
     /**
      * @return mixed
      */
-    public function getSeat()
-    {
+    public function getSeat(){
         return $this->seat;
     }
 
     /**
      * @param mixed $seat
      */
-    public function setSeat($seat)
-    {
+    public function setSeat($seat){
         $this->seat = $seat;
     }
 }
+

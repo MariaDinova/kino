@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Maria
- * Date: 26.2.2019 г.
- * Time: 11:36 ч.
- */
+
 
 namespace model\dao;
 use model\Program;

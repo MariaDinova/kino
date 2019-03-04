@@ -29,8 +29,7 @@ class MovieCategory {
     /**
      * @return mixed
      */
-    public function getCategoryId()
-    {
+    public function getCategoryId(){
         return $this->category_id;
     }
 
@@ -40,5 +39,5 @@ class MovieCategory {
     public function getMovieType() {
         return $this->MovieType;
     }
-
 }
+

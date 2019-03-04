@@ -14,8 +14,7 @@ class AgeRestriction {
      * @param $age_rest_id
      * @param $restriction
      */
-    public function __construct($age_rest_id, $restriction)
-    {
+    public function __construct($age_rest_id, $restriction){
         $this->age_rest_id = $age_rest_id;
         $this->restriction = $restriction;
     }

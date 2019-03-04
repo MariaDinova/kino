@@ -29,52 +29,43 @@ class Period{
     /**
      * @return mixed
      */
-    public function getPeriodId()
-    {
+    public function getPeriodId(){
         return $this->period_id;
     }
 
     /**
      * @param mixed $period_id
      */
-    public function setPeriodId($period_id)
-    {
+    public function setPeriodId($period_id){
         $this->period_id = $period_id;
     }
 
     /**
      * @return mixed
      */
-    public function getStartDate()
-    {
+    public function getStartDate(){
         return $this->start_date;
     }
 
     /**
      * @param mixed $start_date
      */
-    public function setStartDate($start_date)
-    {
+    public function setStartDate($start_date){
         $this->start_date = $start_date;
     }
 
     /**
      * @return mixed
      */
-    public function getEndDate()
-    {
+    public function getEndDate(){
         return $this->end_date;
     }
 
     /**
      * @param mixed $end_date
      */
-    public function setEndDate($end_date)
-    {
+    public function setEndDate($end_date){
         $this->end_date = $end_date;
     }
-
-
-
-
 }
+

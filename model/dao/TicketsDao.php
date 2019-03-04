@@ -26,13 +26,18 @@ class TicketsDao {
 
         $stmt = $pdo->prepare("SELECT hall_row, seat FROM tickets WHERE program_id =? AND slots=? AND date=?");
         $stmt->execute(array($programId, $slot, $date));
-
+        if($stmt->rowCount() == 0){
+            return null;
+        }
+        else {
             $takenSeats = [];
             while ($row = $stmt->fetch(\PDO::FETCH_OBJ)) {
                 $takenSeat = new TakenSeats($row->hall_row,$row->seat);
                 $takenSeats[]=$takenSeat;
             }
             return $takenSeats;
+        }
+
     }
 
     public static function buyTickets($date, $price,$userId, $programId, $slot, $seats){
@@ -41,7 +46,7 @@ class TicketsDao {
 
         for ($i = 0; $i < count($seats); $i++){
             list ($row, $seat) = explode(':', $seats[$i]);
-            //TODO escape values
+
             $values[]= "('$date', $price, $userId, $slot, $programId, $row, $seat)";
 
         }

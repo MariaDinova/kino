@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Maria
- * Date: 24.2.2019 г.
- * Time: 18:31 ч.
- */
+
 
 namespace controller;
 
@@ -20,8 +15,26 @@ class MovieController {
         $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
         $smarty->assign('BASE_PATH', BASE_PATH);
         $smarty->assign('movies', $allMovies);
-        $smarty->display('movieList.tpl');
-
+        $smarty->display('index-view.tpl');
     }
 
+    public function listIndividual(){
+        $movieId = (isset($_GET["id"])) ? $_GET["id"] : "";
+
+            $movie = MovieDao::getOne($movieId);
+
+            if ($movie == null){
+                require (URI.'smartyHeader.php');
+                $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
+                $smarty->assign('BASE_PATH', BASE_PATH);
+                $smarty->display('badValues.tpl');
+            }
+            else {
+                require (URI.'smartyHeader.php');
+                $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
+                $smarty->assign('BASE_PATH', BASE_PATH);
+                $smarty->assign('movie', $movie);
+                $smarty->display('movieList.tpl');
+            }
+    }
 }
