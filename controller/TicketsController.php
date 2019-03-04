@@ -20,7 +20,7 @@ class TicketsController {
             $date = $_GET["day"];
             $result = TicketsDao::getRowsAndSeats($programId);
             $taken = TicketsDao::getTakenSeats($programId, $slot, $date);
-            if ($taken != false){
+            if ($this->isValidSlot($slot, $date) && $date >= date("Y-m-d")){
                 if($result != null){
                     $rows = $this->strToArr($result["hall_rows"]);
                     $seatsPerRow = $this->strToArr($result["seats"]);
@@ -31,6 +31,7 @@ class TicketsController {
                         }
                         $takenSeats[$take->getRow()][$take->getSeat()] = 1;
                     }
+
                     require (URI.'smartyHeader.php');
                     $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
                     $smarty->assign('BASE_PATH', BASE_PATH);
@@ -111,5 +112,14 @@ class TicketsController {
         }
         return $result;
     }
-}
 
+    public  function isValidSlot ($slot, $date){
+        $programByDate = ProgramDao::getAllByDate($date);
+        if ($slot >= 0 && $slot == intval($slot) && $slot <= count($programByDate)){
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
