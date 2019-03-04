@@ -20,7 +20,8 @@ class AdminDao{
                                         JOIN movie_type AS t
                                         ON m.movie_type_id = t.movie_type_id
                                         JOIN age_restriction AS age
-                                        ON m.age_rest_id = age.age_rest_id;");
+                                        ON m.age_rest_id = age.age_rest_id
+                                        ORDER BY m.movie_name;");
         $stmt->execute();
         $movies = [];
         while ($row = $stmt->fetch(\PDO::FETCH_OBJ)){
