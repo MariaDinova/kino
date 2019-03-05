@@ -114,6 +114,8 @@ class AdminDao{
  public static function deleteMovie($movie_id){
         try {
             $pdo = DBConnection::getSingletonPDO();
+            $stmt = $pdo->prepare("DELETE FROM programs WHERE movie_id = ?");
+            $stmt->execute(array($movie_id));
             $stmt = $pdo->prepare("DELETE FROM movies WHERE movie_id = ?");
             $stmt->execute(array($movie_id));
             return true;
