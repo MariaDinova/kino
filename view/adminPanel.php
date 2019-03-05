@@ -19,6 +19,11 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <title>Admin Panel</title>
     <link rel="stylesheet" href="view/css/adminPanelCss.css">
+    <script>
+        if ( window.history.replaceState ) {
+            window.history.replaceState( null, null, window.location.href );
+        }
+    </script>
 </head>
 <body>
 <br>
