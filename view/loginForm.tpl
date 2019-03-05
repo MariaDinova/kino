@@ -1,11 +1,10 @@
+<!--dialog from showSeats (when user want to buy a ticket but is not logged)
+send email and form from dialog in request body by post-->
 <script>
-
     function postData() {
-
         var email = document.getElementById('email').value;
         var password = document.getElementById('password').value;
         var data = { "email": email, "password": password };
-
         fetch('{$BASE_PATH}?target=user&action=login&response=json', {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
@@ -15,9 +14,8 @@
             return response.json();
         })
         .then(function (myJson) {
-
             if (myJson.success == "true") {
-                //success login
+                //if login is success close dialog and submit buy ticket, else show error msg
                 $("#isLoggedIn").val("1");
                 $("#dialog").dialog("close");
                 $("#submit").click();
@@ -31,8 +29,7 @@
         return false;
     }
 </script>
-<a href="{$BASE_PATH}?target=user&action=register" >Register</a>
-
+<a href="{$BASE_PATH}?target=user&action=register">Register</a>
 <form id="postData" onsubmit="return postData()">
     <div id="error"></div>
     <table>

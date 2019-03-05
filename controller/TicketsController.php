@@ -1,8 +1,6 @@
 <?php
 
-
 namespace controller;
-
 
 use model\dao\ProgramDao;
 use model\dao\TicketsDao;
@@ -12,18 +10,34 @@ use model\User;
 
 class TicketsController {
 
+    /**
+     * Display seats page
+     * ?target=tickets&action=showSeats&id=3&indexScreen=1&day=2019-03-07
+     * - target string
+     * - action string
+     * - id integer - ProgramID
+     * - indexScreen integer - Screen Slot Number
+     * - day YYYY-MM-DD - Date should be bigger than today
+     * call showSeats.tpl or Error Page in case of not valid data coming from GET
+     * @return void
+     */
     public function showSeats (){
-        $msg = "";
-        if (isset($_GET["id"], $_GET["slot"], $_GET["day"])){
+
+        if (isset($_GET["id"], $_GET["indexScreen"], $_GET["day"])){
             $programId = $_GET["id"];
-            $slot = $_GET["slot"];
+            $slot = $_GET["indexScreen"];
             $date = $_GET["day"];
+            //take count of rows and seats of each row
             $result = TicketsDao::getRowsAndSeats($programId);
+            //taken is array of objects - two parameters - number of row and seat of taken seat
             $taken = TicketsDao::getTakenSeats($programId, $slot, $date);
+            //if get parameters are not valid or there is no hall for program id - go to error page
             if ($this->isValidSlot($slot, $date) && $date >= date("Y-m-d")){
                 if($result != null){
-                    $rows = $this->strToArr($result["hall_rows"]);
-                    $seatsPerRow = $this->strToArr($result["seats"]);
+                    //make empty arrays with rows and seats
+                    $rows = $this->makeEmptyArray($result["hall_rows"]);
+                    $seatsPerRow = $this->makeEmptyArray($result["seats"]);
+                    //make matrix where taken seat = 1
                     $takenSeats =[];
                     foreach ($taken AS $take){
                         if(!isset($takenSeats[$take->getRow()])){
@@ -32,43 +46,31 @@ class TicketsController {
                         $takenSeats[$take->getRow()][$take->getSeat()] = 1;
                     }
 
-                    require (URI.'smartyHeader.php');
-                    $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
-                    $smarty->assign('BASE_PATH', BASE_PATH);
-                    $smarty->assign('id', $_GET["id"]);
-                    $smarty->assign('slot', $_GET["slot"]);
-                    $smarty->assign('day', $_GET["day"]);
-                    $smarty->assign('rows', $rows);
-                    $smarty->assign('seats', $seatsPerRow);
-                    $smarty->assign('takenSeats', $takenSeats);
-                    $smarty->display('showSeats.tpl');
+                    $GLOBALS["smarty"]->assign('isLoggedIn', isset($_SESSION["user"]));
+                    $GLOBALS["smarty"]->assign('id', $_GET["id"]);
+                    $GLOBALS["smarty"]->assign('slot', $_GET["indexScreen"]);
+                    $GLOBALS["smarty"]->assign('day', $_GET["day"]);
+                    $GLOBALS["smarty"]->assign('rows', $rows);
+                    $GLOBALS["smarty"]->assign('seats', $seatsPerRow);
+                    $GLOBALS["smarty"]->assign('takenSeats', $takenSeats);
+                    $GLOBALS["smarty"]->display('showSeats.tpl');
                 }
                 else {
-                    require (URI.'smartyHeader.php');
-                    $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
-                    $smarty->assign('BASE_PATH', BASE_PATH);
-                    $smarty->display('badValues.tpl');
+                    $this->goToErrorPage();
                 }
             }
             else {
-                require (URI.'smartyHeader.php');
-                $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
-                $smarty->assign('BASE_PATH', BASE_PATH);
-                $smarty->display('badValues.tpl');
+                $this->goToErrorPage();
             }
         }
         else {
-            require (URI.'smartyHeader.php');
-            $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
-            $smarty->assign('BASE_PATH', BASE_PATH);
-            $smarty->display('badValues.tpl');
+            $this->goToErrorPage();
         }
     }
 
 
-
     public function buyTickets (){
-
+        //only logged user can buy ticket. If not logged - redirect to UserController
         if (!isset($_SESSION["user"])){
             header("Location: ".BASE_PATH."?target=user&action=login");
         }
@@ -82,30 +84,29 @@ class TicketsController {
                 $price = $result["price"];
                 $userId = $_SESSION["user"]->getId();;
                 $result = TicketsDao::buyTickets($date, $price, $userId, $programId, $slot, $seats);
+                //if buy ticket is not successful - go to error page, else - go to page with tickets
                 if ($result == null){
-                    require (URI.'smartyHeader.php');
-                    $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
-                    $smarty->assign('BASE_PATH', BASE_PATH);
-                    $smarty->display('badValues.tpl');
+                    $this->goToErrorPage();
                 }
                 else {
-                    require (URI.'smartyHeader.php');
-                    $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
-                    $smarty->assign('BASE_PATH', BASE_PATH);
-                    $smarty->display('myTickets.tpl');
+
+                    $GLOBALS["smarty"]->assign('isLoggedIn', isset($_SESSION["user"]));
+                    $GLOBALS["smarty"]->display('myTickets.tpl');
                 }
             }
             else {
-                require (URI.'smartyHeader.php');
-                $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
-                $smarty->assign('BASE_PATH', BASE_PATH);
-                $smarty->display('badValues.tpl');
+                $this->goToErrorPage();
             }
         }
-
     }
 
-    public function strToArr ($string){
+    public function goToErrorPage (){
+
+        $GLOBALS["smarty"]->assign('isLoggedIn', isset($_SESSION["user"]));
+        $GLOBALS["smarty"]->display('badValues.tpl');
+    }
+
+    public function makeEmptyArray ($string){
         $result = [];
         for ($i = 0; $i < $string; $i++){
             $result[]= 0;

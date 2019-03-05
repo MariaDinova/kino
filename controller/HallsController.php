@@ -15,29 +15,27 @@ use model\Halls;
 class HallsController {
     public function list(){
         $msg = "";
-        $allHalls = [];
-
+        //$allHalls = [];
+        //Check if is set cinema id.
         if(isset($_GET["cinema"])){
             $cinema=$_GET["cinema"];
-            if(HallsDao::getByCinema($cinema) != NULL){
-                $allHalls = HallsDao::getByCinema($cinema);
-            }
-            else {
+            //If is set - get all halls for the chosen cinema from HallsDao.
+            $allHalls = HallsDao::getByCinema($cinema);
+            //If result is NULL, there is not cinema with this id in db
+            if($allHalls == NULL){
                 $msg .="cinema not exists";
-                $allHalls = null;
             }
-
-        } else {
+        }
+        //If cinema id is not set take all halls from db
+        else {
             $allHalls = HallsDao::getAll();
         }
 
-
-        require (URI.'smartyHeader.php');
-        $smarty->assign('msg', $msg);
-        $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
-        $smarty->assign('BASE_PATH', BASE_PATH);
-        $smarty->assign('halls', $allHalls);
-        $smarty->display('hallsList.tpl');
+        // Show hallsList.tpl
+        $GLOBALS["smarty"]->assign('msg', $msg);
+        $GLOBALS["smarty"]->assign('isLoggedIn', isset($_SESSION["user"]));
+        $GLOBALS["smarty"]->assign('halls', $allHalls);
+        $GLOBALS["smarty"]->display('hallsList.tpl');
 
     }
 

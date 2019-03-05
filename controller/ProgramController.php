@@ -1,69 +1,58 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Maria
- * Date: 26.2.2019 г.
- * Time: 11:35 ч.
- */
 
 namespace controller;
-
 
 use model\dao\ProgramDao;
 
 class ProgramController {
 
     public function list(){
-
-        $day = isset($_GET["day"]) ?  $_GET["day"] : date("Y-m-d",mktime(0, 0, 0, date("m")  , date("d"), date("Y")));
+        // if is not set day, day = current date
+        $day = isset($_GET["day"]) ?  $_GET["day"] : date("Y-m-d");
 
         $msg = "";
+        //if is there no hall - hall=all
         $hall = "all";
+        //If is chosen hall we must ge the program only for this hall
         if(isset($_GET["hall"]) && $_GET["hall"] != "all"){
             $hall = $_GET["hall"];
-
-            if(ProgramDao::getAllByDateHall($day, $hall) != null){
-                $programByDate = ProgramDao::getAllByDateHall($day, $hall);
+            $programByDate = ProgramDao::getAllByDateHall($day, $hall);
+            // if result is null - we do not have hall with this id
+            if($programByDate == null){
+                $msg .= "there is no program for this hall on this day";
             }
-            else {
-                $msg .= "hall not exists";
-                $programByDate = null;
-            }
-
         }
+        //else we must list program for this date in all halls in all cinema
         else {
-            if(ProgramDao::getAllByDate($day) != null){
-                $programByDate = ProgramDao::getAllByDate($day);
+            $programByDate = ProgramDao::getAllByDate($day);
+            //if result is null - there is no program for this day in bd
+            if($programByDate == null){
+                $msg .= "there is no program for this day";
             }
-            else {
-                $msg .= "day not exists";
-                $programByDate = null;
-            }
-
         }
 
-        require (URI.'smartyHeader.php');
-        $smarty->assign('msg', $msg);
-        $smarty->assign('isLoggedIn', isset($_SESSION["user"]));
-        $smarty->assign('BASE_PATH', BASE_PATH);
-        $smarty->assign('programs', $programByDate);
-        $smarty->assign('hall', $hall);
-        $smarty->assign('date', $day);
-        $smarty->assign('weekArr', $this->getWeekArray());
-        $smarty->display('programList.tpl');
+        $GLOBALS["smarty"]->assign('msg', $msg);
+        $GLOBALS["smarty"]->assign('isLoggedIn', isset($_SESSION["user"]));
+        $GLOBALS["smarty"]->assign('programs', $programByDate);
+        $GLOBALS["smarty"]->assign('hall', $hall);
+        $GLOBALS["smarty"]->assign('date', $day);
+        $GLOBALS["smarty"]->assign('weekArr', $this->getWeekArray());
+        $GLOBALS["smarty"]->display('programList.tpl');
     }
 
-
+    //get array of seven days from current date
     private function getWeekArray(){
         $weekArr = [];
         date_default_timezone_set('UTC');
         for ($i = 0; $i < 7; $i++){
-            $day=date("Y-m-d",mktime(0, 0, 0, date("m")  , date("d")+$i, date("Y")));
-            $weekArr[$day]  = date("d m, l",mktime(0, 0, 0, date("m")  , date("d")+$i, date("Y")));
-
+            $day=date('Y-m-d',strtotime("+$i day"));
+            $weekArr[$day]  = date('d.m.Y',strtotime("+$i day"));
+//            $day=date("Y-m-d",mktime(0, 0, 0, date("m")  , date("d")+$i, date("Y")));
+//            $weekArr[$day]  = date("d m, l",mktime(0, 0, 0, date("m")  , date("d")+$i, date("Y")));
         }
         return $weekArr;
     }
-
-
 }
+
+
+

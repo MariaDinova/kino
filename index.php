@@ -6,24 +6,19 @@ spl_autoload_register(function ($class) {
     if ($class !== 'Smarty_Autoloader.php') require_once __DIR__ . DIRECTORY_SEPARATOR . $class;
 });
 
-
 if(!isset($_SESSION)){
     session_start();
 }
-
 $fileNotFound = false;
-
 
 $controllerName = isset($_GET['target']) ? $_GET['target'] : 'base';
 $methodName = isset($_GET['action']) ? $_GET['action'] : 'index';
 
 $controllerClassName = '\\controller\\' . ucfirst($controllerName) . 'Controller';
 
-if (class_exists($controllerClassName))
-{
+if (class_exists($controllerClassName)) {
     $controller = new $controllerClassName();
     if (method_exists($controller, $methodName)) {
-
         try{
             $controller->$methodName();
         }
@@ -37,8 +32,6 @@ if (class_exists($controllerClassName))
 } else {
     $fileNotFound = true;
 }
-
-
 if ($fileNotFound) {
     echo 'target or action invalid: target = ' . $controllerName . ' and action = ' .$methodName;
 }

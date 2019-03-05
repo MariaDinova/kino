@@ -1,8 +1,7 @@
 {include file="helpers/head.tpl"}
 {include file="helpers/headerLinks.tpl"}
 
-
-
+<!--List information about chosen movie. Info come from MovieController - listIndividual-->
 <section id="movieList">
     <header>{$movie->getName()}</header>
     <div>
@@ -15,6 +14,4 @@
         </div>
     </div>
 </section>
-
-
 {include file="helpers/foot.tpl"}

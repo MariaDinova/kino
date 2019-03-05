@@ -2,14 +2,11 @@
 
 namespace model\dao;
 
-
-
 class DBConnection {
     private static $instances;
 
     private function __construct(){
     }
-
     /**
      * @return \PDO
      */

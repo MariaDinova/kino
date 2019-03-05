@@ -1,6 +1,7 @@
 {include file="helpers/head.tpl"}
 {include file="helpers/headerLinks.tpl"}
 {$msg}
+<!--register form - send by post to UserController - login-->
 <form action="{$BASE_PATH}?target=user&action=login" method="post">
     <table>
         <tr>

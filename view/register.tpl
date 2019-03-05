@@ -1,9 +1,8 @@
 {include file="helpers/head.tpl"}
 {include file="helpers/headerLinks.tpl"}
 {$msg}
-
+<!--register form - send by post to UserController - register-->
 <form action="{$BASE_PATH}?target=user&action=register" method="post">
-
     <table>
         <tr>
             <td>First name</td>
@@ -29,7 +28,5 @@
             <td colspan="2"><input type="submit" name="register" value="Register now"></td>
         </tr>
     </table>
-
 </form>
-
 {include file="helpers/foot.tpl"}

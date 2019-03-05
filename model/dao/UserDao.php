@@ -14,10 +14,9 @@ class UserDao {
 
     /** @param $email
      * @return User*/
+    //UserCotroller use this in register - to check if email is already exist, in login - to get user info for session
     public static function getByEmail($email){
-
         $pdo = DBConnection::getSingletonPDO();
-
         $stmt = $pdo->prepare("SELECT user_id, first_name, last_name, email, password, age, is_admin FROM users WHERE email=?");
         $stmt->execute(array($email));
         if ($row = $stmt->fetch(\PDO::FETCH_OBJ)) {
@@ -29,12 +28,11 @@ class UserDao {
             return null;
         }
     }
-
+    //UserCotroller use this in login to verify the password
     public static function getPassByEmail($email){
         $pdo = DBConnection::getSingletonPDO();
         $stmt = $pdo->prepare("SELECT password FROM users WHERE email = ?");
         $stmt->execute(array($email));
-
         if($stmt->rowCount()== 0){
             return null;
         }

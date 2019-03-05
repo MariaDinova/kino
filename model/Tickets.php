@@ -97,7 +97,8 @@ class Tickets {
     }
 
     /**
-     * @param mixed $date
+     * @param {} $date
+     * @return void
      */
     public function setDate($date){
         $this->date = $date;
@@ -111,14 +112,16 @@ class Tickets {
     }
 
     /**
-     * @param mixed $prise
+     * @param {double}
+     * @return void
      */
     public function setPrise($prise){
         $this->prise = $prise;
     }
 
     /**
-     * @return mixed
+     *
+     * @return integer
      */
     public function getUserId(){
         return $this->userId;
@@ -126,6 +129,7 @@ class Tickets {
 
     /**
      * @param mixed $userId
+     * @return void
      */
     public function setUserId($userId){
         $this->userId = $userId;
