@@ -51,7 +51,7 @@ class TicketsController {
                     $GLOBALS["smarty"]->assign('slot', $_GET["indexScreen"]);
                     $GLOBALS["smarty"]->assign('day', $_GET["day"]);
                     $GLOBALS["smarty"]->assign('rows', $rows);
-                    //$GLOBALS["smarty"]->assign('hour', $hour);
+                    $GLOBALS["smarty"]->assign('hour', $hour);
                     $GLOBALS["smarty"]->assign('seats', $seatsPerRow);
                     $GLOBALS["smarty"]->assign('takenSeats', $takenSeats);
                     $GLOBALS["smarty"]->display('showSeats.tpl');
@@ -84,7 +84,7 @@ class TicketsController {
                 $programId = $_POST["programId"];
                 $slot = $_POST["slot"];
                 $seats = $_POST["seat"];
-                //$hour = $_POST["hour"];
+                $hour = $_POST["hour"];
                 $price = TicketsDao::getPrice($programId)["price"];
                 $userId = $_SESSION["user"]->getId();
                 $result = TicketsDao::buyTickets($date, $price, $userId, $programId, $slot, $seats);
@@ -93,7 +93,7 @@ class TicketsController {
                     $this->goToErrorPage();
                 }
                 else {
-                    $successMsg = $this->mailUser($date, $price, $programId, $result);
+                    $successMsg = $this->mailUser($date, $price, $programId, $result, $hour);
                     $GLOBALS["smarty"]->assign('isLoggedIn', isset($_SESSION["user"]));
                     $GLOBALS["smarty"]->assign('msg', $successMsg);
                     $GLOBALS["smarty"]->display('boughtTickets.tpl');
@@ -114,9 +114,9 @@ class TicketsController {
      * @param $result - count of bought tickets and row-seat for every ticket
      * @return string - message with info for tickets (movie, price, date, seat, hall, cinema)
      */
-    public function mailUser($date, $price, $programId, $result){
+    public function mailUser($date, $price, $programId, $result, $hour){
         $ticketsCount = $result["countTickets"];
-        $msg = "You bought $ticketsCount tickets. ";
+        $msg = "<h1>You bought $ticketsCount tickets. </h1><table cellpadding='4'>";
         for ($i = 0; $i < $ticketsCount; $i++){
             $infoRes = TicketsDao::getTicketInfo($programId);
             $seat = $result["seats"][$i];
@@ -124,16 +124,22 @@ class TicketsController {
             $hall = $infoRes[0]->getHallType();
             $cinema = $infoRes[0]->getCinemaName();
 
-            $msg .= "Ticket " . ($i+1) . " is for movie: $movie, in hall: $hall, cinema: $cinema,
-            price is: $price, for data: $date, row and seat: $seat";
+            $link = urlencode("Movie: $movie \r\n Seat:$seat \r\n Hall: $hall\r\n Cinema: $cinema\r\n Hour: $hour");
+            $msg .= "<tr><td valign='middle'>Ticket " . ($i+1) . " is for movie: $movie, in hall: $hall, cinema: $cinema,
+            price is: $price, for data: $date, row and seat: $seat </td><td>
+            <img src=\"https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=$link&choe=UTF-8\" /></td></tr>";
 
         }
-        //$email =  $_SESSION["user"]->getEmail();
+        $msg .= "</table>";
+        $email =  $_SESSION["user"]->getEmail();
         //generate code
         //<img src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=
         //{BASE_PATH}?target=tickets&action=list&id=156&choe=UTF-8" title="Link to Google.com" />
 
-        mail("$email", 'Tickets', $msg, "From: kino");
+        if (BASE !== 'localhost') {
+            mail("$email", 'Tickets', $msg, "From: kino");
+        }
+
         return $msg;
     }
 
