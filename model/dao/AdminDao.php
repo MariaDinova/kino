@@ -10,6 +10,7 @@ namespace model\dao;
 
 
 use model\Halls;
+use model\HallTypes;
 use model\Movie;
 
 class AdminDao{
@@ -48,6 +49,18 @@ class AdminDao{
             $halls[]=$hall;
         }
         return $halls;
+    }
+
+    public static function getAllHallTypes(){
+        $pdo = DBConnection::getSingletonPDO();
+        $stmt = $pdo->prepare("SELECT hall_type_id, type FROM hall_types");
+        $stmt->execute();
+        $hall_types = [];
+        while ($row = $stmt->fetch(\PDO::FETCH_OBJ)) {
+            $hallType = new HallTypes($row->hall_type_id,$row->type);
+            $hall_types[]=$hallType;
+        }
+        return $hall_types;
     }
 
 
@@ -111,7 +124,7 @@ class AdminDao{
        }
    }
 
- public static function deleteMovie($movie_id){
+    public static function deleteMovie($movie_id){
         try {
             $pdo = DBConnection::getSingletonPDO();
             $pdo->beginTransaction();
@@ -128,7 +141,7 @@ class AdminDao{
         }
  }
 
- public static function insertHallType($hallType){
+    public static function insertHallType($hallType){
      try {
          $pdo = DBConnection::getSingletonPDO();
          $stmt = $pdo->prepare("INSERT INTO hall_types (type) VALUES (?)");
@@ -140,7 +153,7 @@ class AdminDao{
      }
  }
 
- public static function insertHall($cinema_id, $hallType_id, $seats, $hall_rows){
+    public static function insertHall($cinema_id, $hallType_id, $seats, $hall_rows){
      try {
          $pdo = DBConnection::getSingletonPDO();
          $stmt = $pdo->prepare("INSERT INTO halls (cinema_id, hall_type_id, seats, hall_rows) VALUES (?, ?, ?, ?)");
@@ -152,7 +165,7 @@ class AdminDao{
      }
  }
 
- public static function insertMovieType($movie_type){
+    public static function insertMovieType($movie_type){
      try {
          $pdo = DBConnection::getSingletonPDO();
          $stmt = $pdo->prepare("INSERT INTO movie_type (movie_type) VALUES (?)");

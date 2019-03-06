@@ -1,8 +1,15 @@
 <?php
+if($_SESSION["user"]->getIsAdmin() == 0){
+    header("Location: ".BASE_PATH);
+}else{
+    include_once URI . "view/adminPanel.php";
+}
+
 $movies = \model\dao\AdminDao::getAllMovies();
 $movie_types = \model\dao\MovieCategoryDao::getAll();
 $restrictions = \model\dao\AgeRestrictionDao::getAll();
 $halls = \model\dao\AdminDao::getAllHalls();
+$hall_types = \model\dao\AdminDao::getAllHallTypes();
 $cinemas = \model\dao\CinemaDao::getAll();
 $periods= \model\dao\PeriodsDao::getAllPeriods();
 ?>
@@ -56,9 +63,13 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#editMovie">Edit Movie</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#boughtTickets">Bought Tickets</a>
+        </li>
 
     </ul>
     <div class="tab-content">
+
         <div id="movie-insert" class="container tab-pane fade">
             <h2>Insert Movie</h2>
             <br>
@@ -120,28 +131,37 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
         </div>
 
         <div id="insertInDB" class="container tab-pane fade">
+            <br>
             <form action="?target=admin&action=insertRestriction" method="post">
-                <h2>Insert Age Restriction</h2>
-                <br><br>
                 <table>
+                    <tr>
+                        <td colspan="2">Restrictions: <?php foreach ($restrictions as $restriction) {
+                                echo $restriction->getRestriction() . ", ";
+                            }?></td>
+                    </tr>
                     <tr>
                         <td>Insert Restriction</td>
                         <td><input type="text" name="restriction" required></td>
                     </tr>
                     <tr>
-                        <td><input type="submit" name="insertRestriction" value="Insert Restriction" placeholder="like A, C, D"></td>
+                        <td colspan="2"><input type="submit" name="insertRestriction" value="Insert Restriction" placeholder="like A, C, D"></td>
                     </tr>
                 </table>
             </form>
-            <br>
+            <br><br>
             <form action="?target=admin&action=insertHallType" method="post">
                 <table>
+                    <tr>
+                        <td colspan="2"><?php foreach ($hall_types as $hall_type) {
+                               echo $hall_type->getType() . ", ";
+                            }?></td>
+                    </tr>
                     <tr>
                         <td>Insert Hall Type</td>
                         <td><input type="text" name="hall_type" required></td>
                     </tr>
                     <tr>
-                        <td><input type="submit" name="insertHallType" value="Insert Hall Type" placeholder=" like 2D, 3D, IMAX.."></td>
+                        <td colspan="2"><input type="submit" name="insertHallType" value="Insert Hall Type" placeholder=" like 2D, 3D, IMAX.."></td>
                     </tr>
                 </table>
             </form>
@@ -149,6 +169,13 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
             <form action="?target=admin&action=insertPeriod" method="post">
                 <table>
                     <tr><th>Projection period</th></tr>
+                    <tr>
+                        <td colspan="2">
+                           <?php foreach ($periods as $period){
+                               echo $period->getStartDate() . "--" . $period->getEndDate() . " , ";
+                           } ?>
+                        </td>
+                    </tr>
                     <tr>
                         <td>Insert Projection start date</td>
                         <td><input type="date" name="start_date" required></td>
@@ -291,7 +318,7 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
                     </tr>
                     <tr>
                         <td>Hour Start</td>
-                        <td><input type="time" name="hourStart"></td>
+                        <td><input type="time" name="hourStart" required></td>
                     </tr>
                     <tr>
                         <td>Period</td>
@@ -317,6 +344,15 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
                 </table>
 
             </form>
+        </div>
+
+        <div id="boughtTickets" class="container tab-pane fade">
+            <h2>Bought Tickets</h2>
+            <br>
+            <table>
+                <tr></tr>
+            </table>
+
         </div>
 
     </div>
