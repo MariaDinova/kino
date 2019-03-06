@@ -5,7 +5,7 @@
     /**
      * Check if user is not logged - show dialog with login form, else return true
      *
-     * @returns {boolean}
+     * @returns boolean
      */
     function validate () {
         var isLoggedIn = $("#isLoggedIn").val();

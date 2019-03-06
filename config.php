@@ -2,6 +2,7 @@
 //Configure Paths
 define("URI", __DIR__."/");
 define ("UPLOADED", '/images/');
+define ("BASE", 'localhost');
 define ("BASE_PATH", 'http://localhost:1234/kino/');
 
 //Configure DB

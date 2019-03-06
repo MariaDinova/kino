@@ -1,7 +1,7 @@
 <script>
     /**
      * Login user with Fetch
-     * @returns {boolean}
+     * @returns boolean
      */
     function postData () {
         var email = document.getElementById('email').value;
