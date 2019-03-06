@@ -1,7 +1,12 @@
 {include file="helpers/head.tpl"}
 {include file="helpers/headerLinks.tpl"}
 <script>
-    //check if user is not logged - show dialog with login form, else return true
+
+    /**
+     * Check if user is not logged - show dialog with login form, else return true
+     *
+     * @returns {boolean}
+     */
     function validate () {
         var isLoggedIn = $("#isLoggedIn").val();
         if (isLoggedIn == 1) {
@@ -25,13 +30,14 @@
     <input type="hidden" name="programId" value="{$id}">
     <input type="hidden" name="slot" value="{$slot}">
     <input type="hidden" name="day" value="{$day}">
+    <input type="hidden" name="hour" value="{$hour}">
     <div class="checkbox">
     <table>
         <!--List table with checkboxes for seats -->
         {foreach from=$rows item=row key=key}
             <tr>
                 {foreach from=$seats item=seat key=key1}
-                    <!--If on the current position is set taken seat we can't choose it (do it in style.less)-->
+                    <!--If on the current position is set taken seat - not show checkbox (do it in style.less)-->
                     {if isset($takenSeats[$key][$key1])}
                         <td><input type="checkbox" id="checkbox_{$key}_{$key1}"><label class="taken" for="checkbox_{$key}_{$key1}"></label></td>
                     {else}

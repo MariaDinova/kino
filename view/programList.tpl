@@ -28,7 +28,7 @@
                         <!--Each hour is a link with program id, the number of screening and date.
                          Index is the number of screening and slot is the hour of screening-->
                         {foreach from=$program->getProgramByDate() key=index item=slot}
-                            <a href="{$BASE_PATH}?target=tickets&action=showSeats&id={$program->getProgramId()}&indexScreen={$index}&day={$date}"><span>{$slot}</span></a>
+                            <a href="{$BASE_PATH}?target=tickets&action=showSeats&id={$program->getProgramId()}&indexScreen={$index}&day={$date}&hour={$slot}"><span>{$slot}</span></a>
                         {/foreach}
                     </div>
                </div>

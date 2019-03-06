@@ -1,7 +1,9 @@
-<!--dialog from showSeats (when user want to buy a ticket but is not logged)
-send email and form from dialog in request body by post-->
 <script>
-    function postData() {
+    /**
+     * Login user with Fetch
+     * @returns {boolean}
+     */
+    function postData () {
         var email = document.getElementById('email').value;
         var password = document.getElementById('password').value;
         var data = { "email": email, "password": password };
@@ -29,6 +31,10 @@ send email and form from dialog in request body by post-->
         return false;
     }
 </script>
+<!--
+dialog from showSeats (when user want to buy a ticket but is not logged)
+send email and form from dialog in request body by post
+-->
 <a href="{$BASE_PATH}?target=user&action=register">Register</a>
 <form id="postData" onsubmit="return postData()">
     <div id="error"></div>

@@ -7,6 +7,9 @@ namespace model\dao;
 use model\AgeRestriction;
 
 class AgeRestrictionDao {
+    /**
+     * @return array
+     */
     public static function getAll(){
 
         $pdo = DBConnection::getSingletonPDO();

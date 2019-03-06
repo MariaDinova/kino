@@ -6,7 +6,6 @@ use model\dao\MovieDao;
 class BaseController {
 
     public function index(){
-        //$allMovies = [];
         //Take all movies from MovieDao and show it in index-view.tpl
         $allMovies = MovieDao::getAll();
 
