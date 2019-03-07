@@ -1,7 +1,7 @@
 <?php
 
-
 namespace model\dao;
+
 use model\Tickets;
 use model\TakenSeats;
 use model\TicketInfo;
@@ -14,7 +14,6 @@ class TicketsDao {
      */
     public static function getRowsAndSeats ($programId){
         $pdo = DBConnection::getSingletonPDO();
-
         $stmt = $pdo->prepare("SELECT seats, hall_rows FROM programs LEFT JOIN halls ON programs.hall_id=halls.hall_id
                                           WHERE programs.program_id=?");
         $stmt->execute(array($programId));
@@ -37,12 +36,12 @@ class TicketsDao {
         $pdo = DBConnection::getSingletonPDO();
         $stmt = $pdo->prepare("SELECT hall_row, seat FROM tickets WHERE program_id =? AND slots=? AND date=?");
         $stmt->execute(array($programId, $slot, $date));
-            $takenSeats = [];
-            while ($row = $stmt->fetch(\PDO::FETCH_OBJ)) {
-                $takenSeat = new TakenSeats($row->hall_row,$row->seat);
-                $takenSeats[]=$takenSeat;
-            }
-            return $takenSeats;
+        $takenSeats = [];
+        while ($row = $stmt->fetch(\PDO::FETCH_OBJ)) {
+            $takenSeat = new TakenSeats($row->hall_row,$row->seat);
+            $takenSeats[]=$takenSeat;
+        }
+        return $takenSeats;
     }
 
     /**
@@ -56,14 +55,12 @@ class TicketsDao {
      * @param $seats
      * @return array - count of bought tickets and row:seat for each of them
      */
-    public static function buyTickets($date, $price,$userId, $programId, $slot, $seats){
+    public static function buyTickets($date, $price,$userId, $programId, $slot, $seats, $hour){
         $pdo = DBConnection::getSingletonPDO();
-        $sql = "INSERT INTO tickets(date, ticket_price, user_id, slots, program_id, hall_row, seat) VALUES ";
+        $sql = "INSERT INTO tickets(date, ticket_price, user_id, slots, program_id, hall_row, seat, start_hour) VALUES ";
         for ($i = 0; $i < count($seats); $i++){
             list ($row, $seat) = explode(':', $seats[$i]);
-
-            $values[]= "('$date', $price, $userId, $slot, $programId, $row, $seat)";
-
+            $values[]= "('$date', $price, $userId, $slot, $programId, $row, $seat, '$hour')";
         }
         $sql .= join(',', $values);
         try{
@@ -81,7 +78,7 @@ class TicketsDao {
 
     /**
      * @param $programId
-     * @return double
+     * @return double $price
      */
     public static function getPrice ($programId){
         $pdo = DBConnection::getSingletonPDO();
@@ -137,3 +134,4 @@ class TicketsDao {
         return $myTickets;
     }
 }
+

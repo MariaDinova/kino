@@ -1,13 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Maria
- * Date: 2.3.2019 г.
- * Time: 18:04 ч.
- */
-
 namespace model;
-
 
 class TakenSeats {
     private $row;
@@ -24,31 +16,33 @@ class TakenSeats {
     }
 
     /**
-     * @return mixed
+     * @return int $row
      */
     public function getRow(){
         return $this->row;
     }
 
     /**
-     * @param mixed $row
+     * @param int $row
      */
     public function setRow($row){
         $this->row = $row;
     }
 
     /**
-     * @return mixed
+     * @return int $seat
      */
     public function getSeat(){
         return $this->seat;
     }
 
     /**
-     * @param mixed $seat
+     * @param int $seat
      */
     public function setSeat($seat){
         $this->seat = $seat;
     }
 }
+
+
 

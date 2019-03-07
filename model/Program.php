@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Maria
- * Date: 24.2.2019 г.
- * Time: 18:53 ч.
- */
-
 namespace model;
 
 class Program {
@@ -53,63 +46,63 @@ class Program {
     }
 
     /**
-     * @return mixed
+     * @return int $programId
      */
     public function getProgramId(){
         return $this->program_id;
     }
 
     /**
-     * @return mixed
+     * @return string $hallType
      */
     public function getHall(){
         return $this->hall;
     }
 
     /**
-     * @return mixed
+     * @return string $movieName
      */
     public function getMovie(){
         return $this->movie;
     }
 
     /**
-     * @return mixed
+     * @return string $cinemaName
      */
     public function getCinema(){
         return $this->cinema;
     }
 
     /**
-     * @return mixed
+     * @return $hourStart
      */
     public function getHourStart(){
         return $this->hourStart;
     }
 
     /**
-     * @return mixed
+     * @return $startDate
      */
     public function getStartDate(){
         return $this->startDate;
     }
 
     /**
-     * @return mixed
+     * @return $endDate
      */
     public function getEndDate(){
         return $this->endDate;
     }
 
     /**
-     * @return mixed
+     * @return int $screening
      */
     public function getScreening(){
         return $this->screening;
     }
 
     /**
-     * @return mixed
+     * @return int $slot
      */
     public function getSlot(){
         return $this->slot;
@@ -123,17 +116,19 @@ class Program {
     }
 
     /**
-     * @return mixed
+     * @return $imageUri
      */
     public function getImageUri(){
         return $this->image_uri;
     }
 
     /**
-     * @return mixed
+     * @return $trailerUri
      */
     public function getTrailerUri(){
         return $this->trailer_uri;
     }
 }
+
+
 

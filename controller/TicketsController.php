@@ -1,14 +1,8 @@
 <?php
-
 namespace controller;
 
 use model\dao\ProgramDao;
 use model\dao\TicketsDao;
-use model\Tickets;
-use model\TakenSeats;
-use model\User;
-use model\TicketInfo;
-
 class TicketsController {
 
     /**
@@ -20,6 +14,7 @@ class TicketsController {
      * - indexScreen integer - Screen Slot Number
      * - day YYYY-MM-DD - Date should be bigger than today
      * call showSeats.tpl or Error Page in case of not valid data coming from GET
+     *
      * @return void
      */
     public function showSeats (){
@@ -72,6 +67,8 @@ class TicketsController {
     /**
      *Insert bought tickets in DB trow TicketsDao
      * If success - call boughtTickets.tpl, else - call badValues.tpl
+     *
+     * @return void
      */
     public function buyTickets (){
         //only logged user can buy ticket. If not logged - redirect to UserController - login
@@ -87,7 +84,7 @@ class TicketsController {
                 $hour = $_POST["hour"];
                 $price = TicketsDao::getPrice($programId)["price"];
                 $userId = $_SESSION["user"]->getId();
-                $result = TicketsDao::buyTickets($date, $price, $userId, $programId, $slot, $seats);
+                $result = TicketsDao::buyTickets($date, $price, $userId, $programId, $slot, $seats, $hour);
                 //if buy ticket is not successful - go to error page, else - go to page with tickets
                 if ($result == null){
                     $this->goToErrorPage();
@@ -106,17 +103,19 @@ class TicketsController {
     }
 
     /**
-     * Collect all information about bought tickets and send it to user by email
+     * Collect all information about bought tickets, generate QR code,
+     * show it to user and send it by email
      *
      * @param $date
      * @param $price
      * @param $programId
      * @param $result - count of bought tickets and row-seat for every ticket
+     * @param $hour
      * @return string - message with info for tickets (movie, price, date, seat, hall, cinema)
      */
     public function mailUser($date, $price, $programId, $result, $hour){
         $ticketsCount = $result["countTickets"];
-        $msg = "<h1>You bought $ticketsCount tickets. </h1><table cellpadding='4'>";
+        $msg = "<span>Вие закупихте $ticketsCount билета. </span><table cellpadding='4'>";
         for ($i = 0; $i < $ticketsCount; $i++){
             $infoRes = TicketsDao::getTicketInfo($programId);
             $seat = $result["seats"][$i];
@@ -125,23 +124,19 @@ class TicketsController {
             $cinema = $infoRes[0]->getCinemaName();
 
             $link = urlencode("Movie: $movie \r\n Seat:$seat \r\n Hall: $hall\r\n Cinema: $cinema\r\n Hour: $hour");
-            $msg .= "<tr><td valign='middle'>Ticket " . ($i+1) . " is for movie: $movie, in hall: $hall, cinema: $cinema,
-            price is: $price, for data: $date, row and seat: $seat </td><td>
+            $msg .= "<tr><td valign='middle'>Билет " . ($i+1) . " е за филм: $movie, в зала: $hall, кино: $cinema,
+            за дата: $date, ред и място: $seat, час: $hour часа. <br> Цената му е: $price лв </td><td>
             <img src=\"https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=$link&choe=UTF-8\" /></td></tr>";
 
         }
         $msg .= "</table>";
         $email =  $_SESSION["user"]->getEmail();
-        //generate code
-        //<img src="https://chart.googleapis.com/chart?chs=300x300&cht=qr&chl=
-        //{BASE_PATH}?target=tickets&action=list&id=156&choe=UTF-8" title="Link to Google.com" />
-
         if (BASE !== 'localhost') {
             mail("$email", 'Tickets', $msg, "From: kino");
         }
-
         return $msg;
     }
+
 
     /**
      * Get all tickets, that logged user is bought and call myTickets.tpl

@@ -1,10 +1,13 @@
 <?php
-
 namespace model\dao;
 
 use model\Cinema;
 class CinemaDao {
-    //CinemaController use this function to get all cinema from db
+    /**
+     * CinemaController use this function to get all cinema from db
+     *
+     * @return array - all cinema
+     */
     public static function getAll(){
         $pdo = DBConnection::getSingletonPDO();
         $stmt = $pdo->prepare("SELECT cinema_id, cinema_name, cinema_thumb, cinema_img, city FROM cinema LEFT JOIN locations ON cinema.location_id=locations.location_id");
@@ -17,3 +20,4 @@ class CinemaDao {
         return $cinemas;
     }
 }
+

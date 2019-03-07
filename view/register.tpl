@@ -2,30 +2,30 @@
 {include file="helpers/headerLinks.tpl"}
 {$msg}
 <!--register form - send by post to UserController - register-->
-<form action="{$BASE_PATH}?target=user&action=register" method="post">
+<form class="register-login" action="{$BASE_PATH}?target=user&action=register" method="post">
     <table>
-        <tr>
-            <td>First name</td>
-            <td><input type="text" name="firstName" id="firstName" required></td>
+        <tr class="rows">
+            <td>Име</td>
+            <td><input type="text" name="firstName" id="firstName"  placeholder="Име" required></td>
         </tr>
-        <tr>
-            <td>Last name</td>
-            <td><input type="text" name="lastName" id="lastName" required></td>
+        <tr class="rows">
+            <td>Фамилия</td>
+            <td><input type="text" name="lastName" id="lastName" placeholder="Фамилия"  required></td>
         </tr>
-        <tr>
+        <tr class="rows">
             <td>Email</td>
-            <td><input type="text" name="email" id="email" required></td>
+            <td><input type="text" name="email" id="email"  placeholder="email" required></td>
         </tr>
-        <tr>
-            <td>Password</td>
-            <td><input type="password" name="password" id="password" required></td>
+        <tr class="rows">
+            <td>Парола</td>
+            <td><input type="password" name="password" id="password"  placeholder="Парола" required></td>
         </tr>
-        <tr>
-            <td>Age</td>
-            <td><input type="number" name="age" id="age" required></td>
+        <tr class="rows">
+            <td>Възраст</td>
+            <td><input type="number" name="age" id="age"  placeholder="Възраст" required></td>
         </tr>
-        <tr>
-            <td colspan="2"><input type="submit" name="register" value="Register now"></td>
+        <tr class="rows">
+            <td colspan="2"><input type="submit" name="register" value="Регистрирай се"></td>
         </tr>
     </table>
 </form>

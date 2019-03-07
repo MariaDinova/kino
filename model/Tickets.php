@@ -1,11 +1,6 @@
 <?php
-
-
 namespace model;
-
-
 class Tickets {
-
     private $date;
     private $price;
     private $row;
@@ -26,8 +21,7 @@ class Tickets {
      * @param $hall
      * @param $cinema
      */
-    public function __construct($date, $price, $row, $seat, $startHour, $movie, $hall, $cinema)
-    {
+    public function __construct($date, $price, $row, $seat, $startHour, $movie, $hall, $cinema) {
         $this->date = $date;
         $this->price = $price;
         $this->row = $row;
@@ -39,133 +33,117 @@ class Tickets {
     }
 
     /**
-     * @return mixed
+     * @return $date
      */
-    public function getDate()
-    {
+    public function getDate() {
         return $this->date;
     }
 
     /**
-     * @param mixed $date
+     * @param $date
      */
-    public function setDate($date)
-    {
+    public function setDate($date){
         $this->date = $date;
     }
 
     /**
-     * @return mixed
+     * @return $price
      */
-    public function getPrice()
-    {
+    public function getPrice(){
         return $this->price;
     }
 
     /**
-     * @param mixed $price
+     * @param $price
      */
-    public function setPrice($price)
-    {
+    public function setPrice($price){
         $this->price = $price;
     }
 
     /**
-     * @return mixed
+     * @return int $row
      */
-    public function getRow()
-    {
+    public function getRow(){
         return $this->row;
     }
 
     /**
-     * @param mixed $row
+     * @param int $row
      */
-    public function setRow($row)
-    {
+    public function setRow($row){
         $this->row = $row;
     }
 
     /**
-     * @return mixed
+     * @return int $seat
      */
-    public function getSeat()
-    {
+    public function getSeat(){
         return $this->seat;
     }
 
     /**
-     * @param mixed $seat
+     * @param int $seat
      */
-    public function setSeat($seat)
-    {
+    public function setSeat($seat){
         $this->seat = $seat;
     }
 
     /**
-     * @return mixed
+     * @return $startHour
      */
-    public function getStartHour()
-    {
+    public function getStartHour(){
         return $this->startHour;
     }
 
     /**
-     * @param mixed $startHour
+     * @param $startHour
      */
-    public function setStartHour($startHour)
-    {
+    public function setStartHour($startHour){
         $this->startHour = $startHour;
     }
 
     /**
-     * @return mixed
+     * @return string $movie
      */
-    public function getMovie()
-    {
+    public function getMovie(){
         return $this->movie;
     }
 
     /**
-     * @param mixed $movie
+     * @param string $movie
      */
-    public function setMovie($movie)
-    {
+    public function setMovie($movie){
         $this->movie = $movie;
     }
 
     /**
-     * @return mixed
+     * @return string $hall
      */
-    public function getHall()
-    {
+    public function getHall(){
         return $this->hall;
     }
 
     /**
-     * @param mixed $hall
+     * @param string $hall
      */
-    public function setHall($hall)
-    {
+    public function setHall($hall){
         $this->hall = $hall;
     }
 
     /**
-     * @return mixed
+     * @return string $cinema
      */
-    public function getCinema()
-    {
+    public function getCinema(){
         return $this->cinema;
     }
 
     /**
-     * @param mixed $cinema
+     * @param string $cinema
      */
-    public function setCinema($cinema)
-    {
+    public function setCinema($cinema){
         $this->cinema = $cinema;
     }
-
-
 }
+
+
 

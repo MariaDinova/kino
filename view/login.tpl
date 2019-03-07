@@ -1,24 +1,24 @@
 {include file="helpers/head.tpl"}
 {include file="helpers/headerLinks.tpl"}
 {$msg}
-<!--register form - send by post to UserController - login-->
-<form action="{$BASE_PATH}?target=user&action=login" method="post">
+<!--login form - send by post to UserController - login-->
+<form  class="register-login" action="{$BASE_PATH}?target=user&action=login" method="post">
     <table>
-        <tr>
+        <tr class="rows">
             <td>Email</td>
             <td>
-                <input type="email" name="email" placeholder="your email">
+                <input type="email" name="email" placeholder="email">
             </td>
         </tr>
-        <tr>
-            <td>Password</td>
+        <tr class="rows">
+            <td>Парола</td>
             <td>
-                <input type="password" name="password" placeholder="your password">
+                <input type="password" name="password" placeholder="Парола">
             </td>
-        </tr>
+        </tr class="rows">
         <tr>
             <td>
-                <input type="submit" name="login" value="Log in">
+                <input type="submit" name="login" value="Вход">
             </td>
         </tr>
     </table>

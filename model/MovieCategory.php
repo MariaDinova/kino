@@ -1,8 +1,5 @@
 <?php
-
-
 namespace model;
-
 
 class MovieCategory {
 
@@ -20,24 +17,26 @@ class MovieCategory {
     }
 
     /**
-     * @param mixed $category_id
+     * @param int $category_id
      */
     public function setCategoryId($category_id) {
         $this->category_id = $category_id;
     }
 
     /**
-     * @return mixed
+     * @return int $category_id
      */
     public function getCategoryId(){
         return $this->category_id;
     }
 
     /**
-     * @return mixed
+     * @return string $movieType
      */
     public function getMovieType() {
         return $this->MovieType;
     }
 }
+
+
 

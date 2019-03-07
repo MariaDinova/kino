@@ -28,21 +28,21 @@ class Cinema {
     }
 
     /**
-     * @return mixed
+     * @return int $cinemaId
      */
     public function getCinemaId(){
         return $this->cinema_id;
     }
 
     /**
-     * @return mixed
+     * @return string $cinemaName
      */
     public function getName(){
         return $this->name;
     }
 
     /**
-     * @return mixed
+     * @return string $cinemaLocation
      */
     public function getLocation(){
         return $this->location;
@@ -61,7 +61,7 @@ class Cinema {
     public function getImg(){
         return $this->img;
     }
-
-
 }
+
+
 

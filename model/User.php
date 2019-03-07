@@ -1,8 +1,6 @@
 <?php
-
 namespace model;
 class User {
-
     private $user_id;
     private $firstName;
     private $lastName;
@@ -18,6 +16,7 @@ class User {
      * @param $email
      * @param $password
      * @param $age
+     * @param $isAdmin
      */
     public function __construct($user_id, $firstName, $lastName, $email, $password, $age, $isAdmin) {
         $this->user_id = $user_id;
@@ -30,71 +29,74 @@ class User {
     }
 
     /**
-     * @param mixed $id
+     * @param int $id
      */
     public function setId($id) {
         $this->user_id = $id;
     }
 
     /**
-     * @param mixed $isAdmin
+     * @param int $isAdmin
      */
     public function setIsAdmin($isAdmin) {
         $this->isAdmin = $isAdmin;
     }
 
-
     /**
-     * @return mixed
+     * @return int $id
      */
     public function getId() {
         return $this->user_id;
     }
 
     /**
-     * @return mixed
+     * @return string $firstName
      */
     public function getFirstName(){
         return $this->firstName;
     }
 
     /**
-     * @return mixed
+     * @return string $lastName
      */
     public function getLastName(){
         return $this->lastName;
     }
 
     /**
-     * @return mixed
+     * @return string $email
      */
     public function getEmail(){
         return $this->email;
     }
 
     /**
-     * @return mixed
+     * @return string $password
      */
     public function getPassword(){
         return $this->password;
     }
 
+    /**
+     * @return void
+     */
     function removePass(){
         unset($this->password);
     }
 
     /**
-     * @return mixed
+     * @return int $age
      */
     public function getAge(){
         return $this->age;
     }
 
     /**
-     * @return mixed
+     * @return int $isAdmin
      */
     public function getIsAdmin() {
         return $this->isAdmin;
     }
 }
+
 

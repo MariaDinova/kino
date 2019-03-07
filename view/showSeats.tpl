@@ -48,8 +48,6 @@
         {/foreach}
     </table>
     </div>
-    <br/>
-    <br/>
-    <input id="submit" type="submit" name="buyTicket" value="Buy ticket">
+    <div><input id="submit" type="submit" name="buyTicket" value="Купи билет"></div>
 </form>
 {include file="helpers/foot.tpl"}

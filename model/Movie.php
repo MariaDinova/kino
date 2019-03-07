@@ -1,8 +1,5 @@
 <?php
-
-
 namespace model;
-
 
 class Movie{
     private $movie_id;
@@ -43,56 +40,56 @@ class Movie{
     }
 
     /**
-     * @return mixed
+     * @return int $movieId
      */
     public function getMovieId(){
         return $this->movie_id;
     }
 
     /**
-     * @return mixed
+     * @return string $movieName
      */
     public function getName(){
         return $this->name;
     }
 
     /**
-     * @return mixed
+     * @return string $description
      */
     public function getDescription(){
         return $this->description;
     }
 
     /**
-     * @return mixed
+     * @return string $movieType
      */
     public function getMovieType(){
         return $this->movie_type;
     }
 
     /**
-     * @return mixed
+     * @return $imageUri
      */
     public function getImageUri(){
         return $this->image_uri;
     }
 
     /**
-     * @return mixed
+     * @return $trailerUri
      */
     public function getTrailerUri(){
         return $this->trailer_uri;
     }
 
     /**
-     * @return mixed
+     * @return $ageRestriction
      */
     public function getAgeRest(){
         return $this->age_rest;
     }
 
     /**
-     * @return mixed
+     * @return $price
      */
     public function getPrice()
     {
@@ -100,17 +97,19 @@ class Movie{
     }
 
     /**
-     * @return mixed
+     * @return int $duration
      */
     public function getDuration(){
         return $this->duration;
     }
 
     /**
-     * @return mixed
+     * @return int $slot
      */
     public function getSlot(){
         return $this->slot;
     }
 }
+
+
 

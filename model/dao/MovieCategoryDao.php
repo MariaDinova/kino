@@ -1,14 +1,13 @@
 <?php
-
-
 namespace model\dao;
-
 
 use model\MovieCategory;
 
 class MovieCategoryDao {
+    /**
+     * @return array - all movieTypes
+     */
     public static function getAll(){
-
         $pdo = DBConnection::getSingletonPDO();
         $stmt = $pdo->prepare("SELECT movie_type_id, movie_type FROM movie_type;");
         $stmt->execute();
@@ -20,3 +19,4 @@ class MovieCategoryDao {
         return $movieTypes;
     }
 }
+

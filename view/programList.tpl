@@ -1,9 +1,9 @@
 {include file="helpers/head.tpl"}
 {include file="helpers/headerLinks.tpl"}
-
+<br>
 <div id="title">ПРОГРАМА</div>
 <div id="choose"><img src="{$BASE_PATH}img/popcorn-pack.png" align="middle">ИЗБЕРИ ДЕН</div>
-
+<br>
 <section id="days">
     <!--Take days from ProgramController and list them-->
 {foreach from=$weekArr key=arrayIndex item=day}
@@ -12,7 +12,7 @@
 {/foreach}
 </section>
 <!--If have error message - show it-->
-{$msg}
+<div class="errorMsg">{$msg}</div>
 <section id="programListing">
     <!--List program - movie name, hall name, cinema and hours for every screening -->
     {foreach from=$programs key=arrayIndex item=program}
@@ -21,9 +21,9 @@
                     <img src="{$BASE_PATH}{$program->getImageUri()}" />
                 </div>
                 <div>
-                    Име: {$program->getMovie()}<br>
-                    Зала: {$program->getHall()}<br>
-                    Кино: {$program->getCinema()}
+                    Име: {$program->getMovie()}<br><br>
+                    Зала: {$program->getHall()}<br><br>
+                    Кино: {$program->getCinema()}<br><br><br>
                     <div class="slots">
                         <!--Each hour is a link with program id, the number of screening and date.
                          Index is the number of screening and slot is the hour of screening-->

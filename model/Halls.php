@@ -1,7 +1,5 @@
 <?php
-
 namespace model;
-
 
 class Halls {
     private $hall_id;
@@ -27,38 +25,40 @@ class Halls {
     }
 
     /**
-     * @return mixed
+     * @return int $hallId
      */
     public function getHallId(){
         return $this->hall_id;
     }
 
     /**
-     * @return mixed
+     * @return string $cinema
      */
     public function getCinema(){
         return $this->cinema;
     }
 
     /**
-     * @return mixed
+     * @return $hallType
      */
     public function getHallType(){
         return $this->hallType;
     }
 
     /**
-     * @return mixed
+     * @return $seats
      */
     public function getSeats(){
         return $this->seats;
     }
 
     /**
-     * @return mixed
+     * @return $hallRows
      */
     public function getHallRows(){
         return $this->hallRows;
     }
 }
+
+
 

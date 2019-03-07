@@ -1,5 +1,4 @@
 <?php
-
 namespace model\dao;
 
 class DBConnection {

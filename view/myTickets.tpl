@@ -1,9 +1,10 @@
 {include file="helpers/head.tpl"}
 {include file="helpers/headerLinks.tpl"}
 <br>
+<!--Show all the tickets that are bought from user-->
 <div id="my-tickets">
     <table>
-        <tr>
+        <tr class="rows">
         <th>Movie</th>
         <th>Hall</th>
         <th>Cinema</th>
@@ -14,7 +15,7 @@
         <th>Price</th>
         </tr>
         {foreach from=$tickets key=arrayIndex item=ticket}
-            <tr>
+            <tr class="rows">
                 <td>{$ticket->getMovie()}</td>
                 <td>{$ticket->getHall()}</td>
                 <td>{$ticket->getCinema()}</td>

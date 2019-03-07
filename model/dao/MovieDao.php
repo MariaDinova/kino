@@ -1,17 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Maria
- * Date: 24.2.2019 г.
- * Time: 18:31 ч.
- */
-
 namespace model\dao;
 
 use model\Movie;
 class MovieDao {
+    /**
+     * @return array - all movies
+     */
     public static function getAll(){
-
         $pdo = DBConnection::getSingletonPDO();
         $stmt = $pdo->prepare("SELECT movie_id, movie_name, description, movie_type, image_uri, trailer_uri, restriction, price,duration,slot 
                                           FROM movies LEFT JOIN movie_type ON movies.movie_type_id=movie_type.movie_type_id
@@ -26,6 +21,10 @@ class MovieDao {
         return $movies;
     }
 
+    /**
+     * @param int $id
+     * @return object Movie
+     */
     public static function getOne ($id){
         $pdo = DBConnection::getSingletonPDO();
         $stmt = $pdo->prepare("SELECT movie_id, movie_name, description, movie_type, image_uri, trailer_uri, restriction, price,duration,slot  
@@ -34,7 +33,6 @@ class MovieDao {
                                             LEFT JOIN age_restriction ON movies.age_rest_id=age_restriction.age_rest_id
                                             WHERE movie_id=?");
         $stmt->execute(array($id));
-
         if($stmt->rowCount() == 0){
             return null;
         }
@@ -46,3 +44,4 @@ class MovieDao {
         }
     }
 }
+

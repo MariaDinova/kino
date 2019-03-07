@@ -1,15 +1,18 @@
 <?php
-
 namespace controller;
 
 use model\dao\ProgramDao;
-
 class ProgramController {
-
+    /**
+     * List program by date and hall
+     * If user not choose day and hall - list for current date in all halls
+     * Call - smartyTemplate - programList.tpl
+     *
+     * @return void
+     */
     public function list(){
         // if is not set day, day = current date
         $day = isset($_GET["day"]) ?  $_GET["day"] : date("Y-m-d");
-
         $msg = "";
         //if is there no hall - hall=all
         $hall = "all";
@@ -19,7 +22,7 @@ class ProgramController {
             $programByDate = ProgramDao::getAllByDateHall($day, $hall);
             // if result is null - we do not have hall with this id
             if($programByDate == null){
-                $msg .= "there is no program for this hall on this day";
+                $msg .= "Все още няма програма за тази зала в този ден";
             }
         }
         //else we must list program for this date in all halls in all cinema
@@ -27,10 +30,9 @@ class ProgramController {
             $programByDate = ProgramDao::getAllByDate($day);
             //if result is null - there is no program for this day in bd
             if($programByDate == null){
-                $msg .= "there is no program for this day";
+                $msg .= "Все още няма програма за този ден";
             }
         }
-
         $GLOBALS["smarty"]->assign('msg', $msg);
         $GLOBALS["smarty"]->assign('isLoggedIn', isset($_SESSION["user"]));
         $GLOBALS["smarty"]->assign('programs', $programByDate);
@@ -40,19 +42,22 @@ class ProgramController {
         $GLOBALS["smarty"]->display('programList.tpl');
     }
 
-    //get array of seven days from current date
+
+    /**
+     * @return array - seven days from current day
+     */
     private function getWeekArray(){
         $weekArr = [];
         date_default_timezone_set('UTC');
         for ($i = 0; $i < 7; $i++){
             $day=date('Y-m-d',strtotime("+$i day"));
             $weekArr[$day]  = date('d.m.Y',strtotime("+$i day"));
-//            $day=date("Y-m-d",mktime(0, 0, 0, date("m")  , date("d")+$i, date("Y")));
-//            $weekArr[$day]  = date("d m, l",mktime(0, 0, 0, date("m")  , date("d")+$i, date("Y")));
         }
         return $weekArr;
     }
 }
+
+
 
 
 

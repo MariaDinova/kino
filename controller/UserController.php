@@ -1,12 +1,14 @@
 <?php
-
 namespace controller;
 
 use model\dao\UserDao;
 use model\User;
-
 class UserController {
-
+    /**
+     * If is set POST - register user, else call register.tpl
+     *
+     * @return void
+     */
     public function register (){
         $msg="";
         if (isset($_POST["register"])) {
@@ -20,7 +22,7 @@ class UserController {
                 //if user is not empty - the email from input is already exists
                 $user = UserDao::getByEmail($email);
                 if($user != null){
-                    $msg .= "User already exists";
+                    $msg .= "Вече съществува потребител с този email";
                     $this->triggerError($msg, 'register.tpl');
                 }
                 else {
@@ -31,12 +33,11 @@ class UserController {
                 }
             }
             else {
-                $msg .= "Input is not correct";
+                $msg .= "Въведени са невалидни данни";
                 $this->triggerError($msg, 'register.tpl');
             }
         }
         else {
-
             $GLOBALS["smarty"]->assign('isLoggedIn', isset($_SESSION["user"]));
             $GLOBALS["smarty"]->assign('msg', $msg);
             $GLOBALS["smarty"]->display('register.tpl');
@@ -54,6 +55,11 @@ class UserController {
         header("Location:".BASE_PATH."index.php");
     }
 
+    /**
+     * Data can come in POST or in body
+     *
+     * @return void
+     */
     public function login(){
         if (!isset($_GET['response']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST["email"];
@@ -70,7 +76,7 @@ class UserController {
         if(isset($email)){
             $realPassword = UserDao::getPassByEmail($email);
             if($realPassword == null){
-                $msg .= "Invalid email";
+                $msg .= "Невалиден email";
                 $this->triggerError($msg, 'login.tpl');
             }
             else{
@@ -99,13 +105,12 @@ class UserController {
                         echo  json_encode($response);
                         die();
                     }
-                    $msg .= "Invalid password";
+                    $msg .= "Грешна парола";
                     $this->triggerError($msg, 'login.tpl');
                 }
             }
         }
         else {
-
             $GLOBALS["smarty"]->assign('msg', $msg);
             $GLOBALS["smarty"]->assign('isLoggedIn', isset($_SESSION["user"]));
             $GLOBALS["smarty"]->display('login.tpl');
@@ -133,22 +138,30 @@ class UserController {
      */
     private function isValidString ($string){
         $isValid = false;
-
         if(isset($string) && trim($string) != ""){
             $isValid = true;
         }
         return $isValid;
     }
 
+    /**
+     * Validate if email is correct
+     * @param string $email
+     * @return bool
+     */
     private function isValidEmail ($email){
         $isValid = false;
-
         if (isset($email) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $isValid=true;
         }
         return $isValid;
     }
 
+    /**
+     * Validate if age is correct
+     * @param int $age
+     * @return bool
+     */
     private function isValidAge ($age){
         $isValid = false;
         if(isset($age) && $age == intval($age) && $age > 0){
@@ -157,12 +170,15 @@ class UserController {
         return $isValid;
     }
 
+    /**
+     * Validate if all input is correct
+     * @param POST array
+     * @return bool
+     */
     private function isValidInput ($input){
-
         foreach ($input as $key => $value) {
             $$key = $value;
         }
-
         $isValid = false;
         if ($this->isValidString($firstName) && $this->isValidString($lastName) && $this->isValidString($password)
                     && $this->isValidEmail($email) && $this->isValidAge($age)){

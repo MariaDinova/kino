@@ -27,6 +27,50 @@ menu {
   }
 }
 
+.register-login {
+  display: flex;
+  margin-top: 50px;
+  justify-content: center;
+}
+
+#my-tickets{
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+
+  table {
+    min-width: 700px;
+    text-align: center;
+
+    th {
+      font-size: 20px;
+      padding-bottom: 15px;
+    }
+  }
+}
+tr.rows > td {
+  padding: 5px;
+}
+
+#errorPage {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+
+  span{
+    font-size: 20px;
+  }
+}
+
+#ticketsMsg {
+  display: flex;
+  margin: 20px;
+
+  span {
+    font-size: 20px;
+  }
+}
+
 a, a:link {
   color: white;
   text-decoration: none;
@@ -42,11 +86,29 @@ a, a:link {
   font-size: 30px;
 }
 
+.halls {
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+
+  span {
+    color: #fff;
+    padding: 3px 10px;
+    margin: 0 1px 0 0;
+    font-size: 30px;
+
+    &:hover {
+      color: red;
+    }
+  }
+}
+
 #listCinema {
   display: flex;
   flex-flow: row;
   margin-top: 20px;
   padding: 0 50px;
+  font-size: 20px;
 
   & > div {
     flex: 1;
@@ -68,7 +130,7 @@ a, a:link {
 
     a:link {
       text-decoration: none;
-
+      font-size: 20px;
     }
   }
 }
@@ -166,6 +228,13 @@ a, a:link {
   }
 }
 
+.errorMsg{
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+  font-size: 30px;
+}
+
 #programListing {
 
   margin-top: 20px;
@@ -181,8 +250,8 @@ a, a:link {
   }
 
   img {
-    max-width: 200px;
-    max-height: 200px;
+    width: 200px;
+    height: 200px;
     margin-right: 20px;
   }
   .slots {
@@ -200,6 +269,12 @@ a, a:link {
     }
 
   }
+}
+
+#seats {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
 }
 
 .hidden {

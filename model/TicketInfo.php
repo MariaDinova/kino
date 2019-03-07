@@ -1,9 +1,5 @@
 <?php
-
-
 namespace model;
-
-
 class TicketInfo{
     private $movieName;
     private $hallType;
@@ -28,86 +24,73 @@ class TicketInfo{
     }
 
     /**
-     * @return mixed
+     * @return string $movieName
      */
-    public function getMovieName()
-    {
+    public function getMovieName(){
         return $this->movieName;
     }
 
     /**
-     * @param mixed $movieName
+     * @param string $movieName
      */
-    public function setMovieName($movieName)
-    {
+    public function setMovieName($movieName){
         $this->movieName = $movieName;
     }
 
     /**
-     * @return mixed
+     * @return string $hallType
      */
-    public function getHallType()
-    {
+    public function getHallType(){
         return $this->hallType;
     }
 
     /**
-     * @param mixed $hallType
+     * @param string $hallType
      */
-    public function setHallType($hallType)
-    {
+    public function setHallType($hallType){
         $this->hallType = $hallType;
     }
 
     /**
-     * @return mixed
+     * @return string $cinemaName
      */
-    public function getCinemaName()
-    {
+    public function getCinemaName(){
         return $this->cinemaName;
     }
 
     /**
-     * @param mixed $cinemaName
+     * @param string $cinemaName
      */
-    public function setCinemaName($cinemaName)
-    {
+    public function setCinemaName($cinemaName){
         $this->cinemaName = $cinemaName;
     }
 
     /**
-     * @return mixed
+     * @return $hourStart
      */
-    public function getHourStart()
-    {
+    public function getHourStart(){
         return $this->hourStart;
     }
 
     /**
-     * @param mixed $hourStart
+     * @param $hourStart
      */
-    public function setHourStart($hourStart)
-    {
+    public function setHourStart($hourStart){
         $this->hourStart = $hourStart;
     }
 
     /**
-     * @return mixed
+     * @return int $movieSlot
      */
-    public function getMovieSlot()
-    {
+    public function getMovieSlot(){
         return $this->movieSlot;
     }
 
     /**
-     * @param mixed $movieSlot
+     * @param int $movieSlot
      */
-    public function setMovieSlot($movieSlot)
-    {
+    public function setMovieSlot($movieSlot){
         $this->movieSlot = $movieSlot;
     }
-
-
-
-
 }
+

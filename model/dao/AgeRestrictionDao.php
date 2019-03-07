@@ -1,17 +1,13 @@
 <?php
-
-
 namespace model\dao;
-
 
 use model\AgeRestriction;
 
 class AgeRestrictionDao {
     /**
-     * @return array
+     * @return array - all age restrictions
      */
     public static function getAll(){
-
         $pdo = DBConnection::getSingletonPDO();
         $stmt = $pdo->prepare("SELECT age_rest_id, restriction FROM age_restriction;");
         $stmt->execute();
@@ -23,3 +19,4 @@ class AgeRestrictionDao {
         return $ageRestrictions;
     }
 }
+

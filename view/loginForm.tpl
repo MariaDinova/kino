@@ -22,7 +22,7 @@
                 $("#dialog").dialog("close");
                 $("#submit").click();
             } else {
-                $("#error").text('Wrong email or password');
+                $("#error").text('Грешен email или парола');
             }
         })
         .catch(function (e) {
