@@ -10,6 +10,7 @@ namespace model\dao;
 
 
 use model\Halls;
+use model\HallTypes;
 use model\Movie;
 
 class AdminDao{
@@ -48,6 +49,18 @@ class AdminDao{
             $halls[]=$hall;
         }
         return $halls;
+    }
+
+    public static function getAllHallTypes(){
+        $pdo = DBConnection::getSingletonPDO();
+        $stmt = $pdo->prepare("SELECT hall_type_id, type FROM hall_types");
+        $stmt->execute();
+        $hall_types = [];
+        while ($row = $stmt->fetch(\PDO::FETCH_OBJ)) {
+            $hallType = new HallTypes($row->hall_type_id,$row->type);
+            $hall_types[]=$hallType;
+        }
+        return $hall_types;
     }
 
 
@@ -111,7 +124,7 @@ class AdminDao{
        }
    }
 
- public static function deleteMovie($movie_id){
+    public static function deleteMovie($movie_id){
         try {
             $pdo = DBConnection::getSingletonPDO();
             $pdo->beginTransaction();
@@ -128,7 +141,7 @@ class AdminDao{
         }
  }
 
- public static function insertHallType($hallType){
+    public static function insertHallType($hallType){
      try {
          $pdo = DBConnection::getSingletonPDO();
          $stmt = $pdo->prepare("INSERT INTO hall_types (type) VALUES (?)");
@@ -140,7 +153,7 @@ class AdminDao{
      }
  }
 
- public static function insertHall($cinema_id, $hallType_id, $seats, $hall_rows){
+    public static function insertHall($cinema_id, $hallType_id, $seats, $hall_rows){
      try {
          $pdo = DBConnection::getSingletonPDO();
          $stmt = $pdo->prepare("INSERT INTO halls (cinema_id, hall_type_id, seats, hall_rows) VALUES (?, ?, ?, ?)");
@@ -152,7 +165,7 @@ class AdminDao{
      }
  }
 
- public static function insertMovieType($movie_type){
+    public static function insertMovieType($movie_type){
      try {
          $pdo = DBConnection::getSingletonPDO();
          $stmt = $pdo->prepare("INSERT INTO movie_type (movie_type) VALUES (?)");
@@ -202,6 +215,54 @@ class AdminDao{
         }
     }
 
+
+    public static function getAllTickets(){
+        $pdo = DBConnection::getSingletonPDO();
+        $stmt = $pdo->prepare("SELECT DISTINCT CONCAT(u.first_name, ' ', u.last_name) as name, COUNT(DISTINCT(t.ticket_id)) AS tickets, t.user_id, t.date, t.ticket_price, c.cinema_name, m.movie_name, h.hall_id 
+                                        FROM users AS u
+                                        JOIN tickets as t
+                                        ON u.user_id = t.user_id
+                                        JOIN programs AS p
+                                        ON t.program_id = p.program_id
+                                        JOIN movies AS m
+                                        ON p.movie_id = m.movie_id
+                                        JOIN programs AS prog
+                                        ON m.movie_id = prog.movie_id
+                                        JOIN halls AS h
+                                        ON prog.hall_id = h.hall_id
+                                        JOIN cinema AS c
+                                        ON h.cinema_id = c.cinema_id
+                                        GROUP BY t.user_id;");
+        $stmt->execute();
+        $tickets = [];
+        $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+            foreach ($rows as $row){
+                $ticket = [];
+                $ticket["name"] = $row["name"];
+                $ticket["tickets"] = $row["tickets"];
+                $ticket["user_id"] = $row["user_id"];
+                $ticket["ticket_price"] = $row["ticket_price"];
+                $ticket["cinema_name"] = $row["cinema_name"];
+                $ticket["movie"] = $row["movie_name"];
+                $ticket["hall_id"]= $row["hall_id"];
+                $tickets[]=$ticket;
+            }
+
+        return $tickets;
+    }
+
+
+    public static function cancelReservation($user_id){
+        try {
+            $pdo = DBConnection::getSingletonPDO();
+            $stmt = $pdo->prepare("DELETE FROM tickets WHERE user_id = ?");
+            $stmt->execute(array($user_id));
+            return true;
+        }catch (\PDOException $e){
+            echo "Error" . $e->getMessage();
+            return false;
+        }
+    }
 
 
 

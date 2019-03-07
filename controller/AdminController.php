@@ -213,9 +213,13 @@ class AdminController{
             if(isset($_POST["insertProgram"])){
                 $hall_id = $_POST["hall_id"];
                 $movie_id = $_POST["movie_id"];
-                $hourStart = $_POST["hourStart"];
+                if(!empty($_POST["hourStart"])) {
+                    $hourStart = $_POST["hourStart"];
+                }else{
+                    echo "Reqired field";
+                }
                 $period_id = $_POST["period_id"];
-                if(isset($_POST["screening"]) && $_POST["screening"] >= 0) {
+                if(isset($_POST["screening"]) && $_POST["screening"] > 0) {
                     $screening = $_POST["screening"];
                 }else{
                     $screening = null;
@@ -224,6 +228,21 @@ class AdminController{
                 AdminDao::insertProgram($hall_id, $movie_id, $hourStart, $period_id, $screening);
                 include_once URI . "view/adminPanel.php";
             }
+        }else{
+            include_once URI . "view/adminPanel.php";
+        }
+    }
+
+
+    public function cancelReservation(){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+            if (isset($_POST["cancelReservation"])) {
+                $userId = $_POST["user_id"];
+                AdminDao::cancelReservation($userId);
+                include_once URI . "view/adminPanel.php";
+            }
+        }else{
+            include_once URI . "view/adminPanel.php";
         }
     }
 

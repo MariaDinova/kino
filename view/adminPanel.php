@@ -1,8 +1,15 @@
 <?php
+if($_SESSION["user"]->getIsAdmin() == 0){
+    header("Location: ".BASE_PATH);
+}else{
+    include_once URI . "view/adminPanel.php";
+}
+$tickets = \model\dao\AdminDao::getAllTickets();
 $movies = \model\dao\AdminDao::getAllMovies();
 $movie_types = \model\dao\MovieCategoryDao::getAll();
 $restrictions = \model\dao\AgeRestrictionDao::getAll();
 $halls = \model\dao\AdminDao::getAllHalls();
+$hall_types = \model\dao\AdminDao::getAllHallTypes();
 $cinemas = \model\dao\CinemaDao::getAll();
 $periods= \model\dao\PeriodsDao::getAllPeriods();
 ?>
@@ -56,14 +63,18 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#editMovie">Edit Movie</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#boughtTickets">Bought Tickets</a>
+        </li>
 
     </ul>
     <div class="tab-content">
+
         <div id="movie-insert" class="container tab-pane fade">
             <h2>Insert Movie</h2>
             <br>
             <form action="?target=admin&action=insertMovie" method="post" enctype="multipart/form-data">
-                <table>
+                <table class="table-bordered">
                     <tr>
                         <td>Movie Name</td>
                         <td><input type="text" name="movie_name" required></td>
@@ -120,35 +131,51 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
         </div>
 
         <div id="insertInDB" class="container tab-pane fade">
+            <br>
             <form action="?target=admin&action=insertRestriction" method="post">
-                <h2>Insert Age Restriction</h2>
-                <br><br>
-                <table>
+                <table class="table-bordered">
+                    <tr>
+                        <td colspan="2">Restrictions: <?php foreach ($restrictions as $restriction) {
+                                echo $restriction->getRestriction() . ", ";
+                            }?></td>
+                    </tr>
                     <tr>
                         <td>Insert Restriction</td>
                         <td><input type="text" name="restriction" required></td>
                     </tr>
                     <tr>
-                        <td><input type="submit" name="insertRestriction" value="Insert Restriction" placeholder="like A, C, D"></td>
+                        <td colspan="2"><input type="submit" name="insertRestriction" value="Insert Restriction" placeholder="like A, C, D"></td>
                     </tr>
                 </table>
             </form>
-            <br>
+            <br><br>
             <form action="?target=admin&action=insertHallType" method="post">
                 <table>
+                    <tr>
+                        <td colspan="2"><?php foreach ($hall_types as $hall_type) {
+                               echo $hall_type->getType() . ", ";
+                            }?></td>
+                    </tr>
                     <tr>
                         <td>Insert Hall Type</td>
                         <td><input type="text" name="hall_type" required></td>
                     </tr>
                     <tr>
-                        <td><input type="submit" name="insertHallType" value="Insert Hall Type" placeholder=" like 2D, 3D, IMAX.."></td>
+                        <td colspan="2"><input type="submit" name="insertHallType" value="Insert Hall Type" placeholder=" like 2D, 3D, IMAX.."></td>
                     </tr>
                 </table>
             </form>
             <br>
             <form action="?target=admin&action=insertPeriod" method="post">
-                <table>
+                <table class="table-bordered">
                     <tr><th>Projection period</th></tr>
+                    <tr>
+                        <td colspan="2">
+                           <?php foreach ($periods as $period){
+                               echo $period->getStartDate() . "--" . $period->getEndDate() . " , ";
+                           } ?>
+                        </td>
+                    </tr>
                     <tr>
                         <td>Insert Projection start date</td>
                         <td><input type="date" name="start_date" required></td>
@@ -167,7 +194,7 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
         <div  id="movie_list" class="container tab-pane active">
             <h2>Movies</h2>
             <br>
-            <table id="admin-movies-list">
+            <table id="admin-movies-list" class="table-bordered">
                 <tr>
                     <th>Name</th>
                     <th>Description</th>
@@ -210,7 +237,7 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
             <h4>Edit Movie</h4>
             <?php foreach ($movies as $item) { ?>
                 <form action="?target=admin&action=updateMovie" method="post" class="float-left edit_movies">
-                    <table>
+                    <table class="table-bordered">
                         <tr>
                             <td class="text-warning">Movie name</td>
                             <td><input  class="form-control" type="text" name="name" value="<?php echo $item->getName();?>"></td>
@@ -269,7 +296,7 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
             <h2>Insert Program</h2>
             <br>
             <form action="?target=admin&action=insertProgram" method="post">
-                <table>
+                <table class="table-bordered">
                     <tr>
                         <td>Select Hall</td>
                         <td><select name="hall_id" id="">
@@ -291,7 +318,7 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
                     </tr>
                     <tr>
                         <td>Hour Start</td>
-                        <td><input type="time" name="hourStart"></td>
+                        <td><input type="time" name="hourStart" required></td>
                     </tr>
                     <tr>
                         <td>Period</td>
@@ -317,6 +344,39 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
                 </table>
 
             </form>
+        </div>
+
+        <div id="boughtTickets" class="container tab-pane fade">
+            <h2>Bought Tickets</h2>
+            <br>
+            <table class="table-bordered">
+                <tr>
+                    <th>Name</th>
+                    <th>Bought Tickets</th>
+                    <th>Ticket Price</th>
+                    <th>Cinema</th>
+                    <th>Movie</th>
+                    <th>Hall</th>
+                    <th>Cancel Reservation</th>
+                </tr>
+                <?php foreach ($tickets as $ticket) { ?>
+                    <tr>
+                        <td><?php echo $ticket["name"]; ?></td>
+                        <td><?php echo $ticket["tickets"]; ?></td>
+                        <td><?php echo $ticket["ticket_price"]; ?></td>
+                        <td><?php echo $ticket["cinema_name"]; ?></td>
+                        <td><?php echo $ticket["movie"]; ?></td>
+                        <td><?php echo $ticket["hall_id"]; ?></td>
+                        <td class="btn-btn-danger">
+                            <form action="?target=admin&action=cancelReservation" method="post">
+                                <input type="hidden" name="user_id" value="<?php echo $ticket["user_id"]; ?>">
+                                <input type="submit" name="cancelReservation" value="Cancel Reservation">
+                            </form>
+                        </td>
+                    </tr>
+                <?php } ?>
+            </table>
+
         </div>
 
     </div>
