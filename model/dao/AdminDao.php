@@ -218,7 +218,7 @@ class AdminDao{
 
     public static function getAllTickets(){
         $pdo = DBConnection::getSingletonPDO();
-        $stmt = $pdo->prepare("SELECT DISTINCT CONCAT(u.first_name, ' ', u.last_name) as name, COUNT(t.ticket_id) AS tickets, t.date, t.ticket_price, c.cinema_name, m.movie_name, h.hall_id 
+        $stmt = $pdo->prepare("SELECT DISTINCT CONCAT(u.first_name, ' ', u.last_name) as name, COUNT(t.ticket_id) AS tickets, t.user_id, t.date, t.ticket_price, c.cinema_name, m.movie_name, h.hall_id 
                                         FROM users AS u
                                         JOIN tickets as t
                                         ON u.user_id = t.user_id
@@ -237,12 +237,32 @@ class AdminDao{
         $tickets = [];
         $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
             foreach ($rows as $row){
-                $tickets[] = $row["ticket"];
+                $ticket = [];
+                $ticket["name"] = $row["name"];
+                $ticket["tickets"] = $row["tickets"];
+                $ticket["user_id"] = $row["user_id"];
+                $ticket["ticket_price"] = $row["ticket_price"];
+                $ticket["cinema_name"] = $row["cinema_name"];
+                $ticket["movie"] = $row["movie_name"];
+                $ticket["hall_id"]= $row["hall_id"];
+                $tickets[]=$ticket;
             }
 
         return $tickets;
     }
 
+
+    public static function cancelReservation($user_id){
+        try {
+            $pdo = DBConnection::getSingletonPDO();
+            $stmt = $pdo->prepare("DELETE FROM tickets WHERE user_id = ?");
+            $stmt->execute(array($user_id));
+            return true;
+        }catch (\PDOException $e){
+            echo "Error" . $e->getMessage();
+            return false;
+        }
+    }
 
 
 

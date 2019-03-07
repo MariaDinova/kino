@@ -234,5 +234,18 @@ class AdminController{
     }
 
 
+    public function cancelReservation(){
+        if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+            if (isset($_POST["cancelReservation"])) {
+                $userId = $_POST["user_id"];
+                AdminDao::cancelReservation($userId);
+                include_once URI . "view/adminPanel.php";
+            }
+        }else{
+            include_once URI . "view/adminPanel.php";
+        }
+    }
+
+
 
 }

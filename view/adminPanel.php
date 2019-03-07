@@ -4,7 +4,7 @@ if($_SESSION["user"]->getIsAdmin() == 0){
 }else{
     include_once URI . "view/adminPanel.php";
 }
-
+$tickets = \model\dao\AdminDao::getAllTickets();
 $movies = \model\dao\AdminDao::getAllMovies();
 $movie_types = \model\dao\MovieCategoryDao::getAll();
 $restrictions = \model\dao\AgeRestrictionDao::getAll();
@@ -74,7 +74,7 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
             <h2>Insert Movie</h2>
             <br>
             <form action="?target=admin&action=insertMovie" method="post" enctype="multipart/form-data">
-                <table>
+                <table class="table-bordered">
                     <tr>
                         <td>Movie Name</td>
                         <td><input type="text" name="movie_name" required></td>
@@ -133,7 +133,7 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
         <div id="insertInDB" class="container tab-pane fade">
             <br>
             <form action="?target=admin&action=insertRestriction" method="post">
-                <table>
+                <table class="table-bordered">
                     <tr>
                         <td colspan="2">Restrictions: <?php foreach ($restrictions as $restriction) {
                                 echo $restriction->getRestriction() . ", ";
@@ -167,7 +167,7 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
             </form>
             <br>
             <form action="?target=admin&action=insertPeriod" method="post">
-                <table>
+                <table class="table-bordered">
                     <tr><th>Projection period</th></tr>
                     <tr>
                         <td colspan="2">
@@ -194,7 +194,7 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
         <div  id="movie_list" class="container tab-pane active">
             <h2>Movies</h2>
             <br>
-            <table id="admin-movies-list">
+            <table id="admin-movies-list" class="table-bordered">
                 <tr>
                     <th>Name</th>
                     <th>Description</th>
@@ -237,7 +237,7 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
             <h4>Edit Movie</h4>
             <?php foreach ($movies as $item) { ?>
                 <form action="?target=admin&action=updateMovie" method="post" class="float-left edit_movies">
-                    <table>
+                    <table class="table-bordered">
                         <tr>
                             <td class="text-warning">Movie name</td>
                             <td><input  class="form-control" type="text" name="name" value="<?php echo $item->getName();?>"></td>
@@ -296,7 +296,7 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
             <h2>Insert Program</h2>
             <br>
             <form action="?target=admin&action=insertProgram" method="post">
-                <table>
+                <table class="table-bordered">
                     <tr>
                         <td>Select Hall</td>
                         <td><select name="hall_id" id="">
@@ -349,8 +349,32 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
         <div id="boughtTickets" class="container tab-pane fade">
             <h2>Bought Tickets</h2>
             <br>
-            <table>
-                <tr></tr>
+            <table class="table-bordered table-hover">
+                <tr>
+                    <th>Name</th>
+                    <th>Bought Tickets</th>
+                    <th>Ticket Price</th>
+                    <th>Cinema</th>
+                    <th>Movie</th>
+                    <th>Hall</th>
+                    <th>Cancel Reservation</th>
+                </tr>
+                <?php foreach ($tickets as $ticket) { ?>
+                    <tr>
+                        <td><?php echo $ticket["name"]; ?></td>
+                        <td><?php echo $ticket["tickets"]; ?></td>
+                        <td><?php echo $ticket["ticket_price"]; ?></td>
+                        <td><?php echo $ticket["cinema_name"]; ?></td>
+                        <td><?php echo $ticket["movie"]; ?></td>
+                        <td><?php echo $ticket["hall_id"]; ?></td>
+                        <td class="btn-btn-danger">
+                            <form action="?target=admin&action=cancelReservation" method="post">
+                                <input type="hidden" name="user_id" value="<?php echo $ticket["user_id"]; ?>">
+                                <input type="submit" name="cancelReservation" value="Cancel Reservation">
+                            </form>
+                        </td>
+                    </tr>
+                <?php } ?>
             </table>
 
         </div>
