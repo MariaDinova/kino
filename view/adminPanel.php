@@ -349,7 +349,7 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
         <div id="boughtTickets" class="container tab-pane fade">
             <h2>Bought Tickets</h2>
             <br>
-            <table class="table-bordered table-hover">
+            <table class="table-bordered">
                 <tr>
                     <th>Name</th>
                     <th>Bought Tickets</th>

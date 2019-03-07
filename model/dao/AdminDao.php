@@ -218,7 +218,7 @@ class AdminDao{
 
     public static function getAllTickets(){
         $pdo = DBConnection::getSingletonPDO();
-        $stmt = $pdo->prepare("SELECT DISTINCT CONCAT(u.first_name, ' ', u.last_name) as name, COUNT(t.ticket_id) AS tickets, t.user_id, t.date, t.ticket_price, c.cinema_name, m.movie_name, h.hall_id 
+        $stmt = $pdo->prepare("SELECT DISTINCT CONCAT(u.first_name, ' ', u.last_name) as name, COUNT(DISTINCT(t.ticket_id)) AS tickets, t.user_id, t.date, t.ticket_price, c.cinema_name, m.movie_name, h.hall_id 
                                         FROM users AS u
                                         JOIN tickets as t
                                         ON u.user_id = t.user_id
@@ -232,7 +232,7 @@ class AdminDao{
                                         ON prog.hall_id = h.hall_id
                                         JOIN cinema AS c
                                         ON h.cinema_id = c.cinema_id
-                                        GROUP BY name;");
+                                        GROUP BY t.user_id;");
         $stmt->execute();
         $tickets = [];
         $rows = $stmt->fetchAll(\PDO::FETCH_ASSOC);
