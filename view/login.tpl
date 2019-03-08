@@ -1,6 +1,6 @@
 {include file="helpers/head.tpl"}
 {include file="helpers/headerLinks.tpl"}
-{$msg}
+<div class="errorMsg">{$msg}</div>
 <!--login form - send by post to UserController - login-->
 <form  class="register-login" action="{$BASE_PATH}?target=user&action=login" method="post">
     <table>

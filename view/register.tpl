@@ -1,6 +1,6 @@
 {include file="helpers/head.tpl"}
 {include file="helpers/headerLinks.tpl"}
-{$msg}
+<div class="errorMsg">{$msg}</div>
 <!--register form - send by post to UserController - register-->
 <form class="register-login" action="{$BASE_PATH}?target=user&action=register" method="post">
     <table>
@@ -18,7 +18,7 @@
         </tr>
         <tr class="rows">
             <td>Парола</td>
-            <td><input type="password" name="password" id="password"  placeholder="Парола" required></td>
+            <td><input type="password" name="password" id="password"  placeholder="Парола(минимум 6 символа)" required></td>
         </tr>
         <tr class="rows">
             <td>Възраст</td>

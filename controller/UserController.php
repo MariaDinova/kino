@@ -105,7 +105,7 @@ class UserController {
                         echo  json_encode($response);
                         die();
                     }
-                    $msg .= "Грешна парола";
+                    $msg .= "Грешен email или парола";
                     $this->triggerError($msg, 'login.tpl');
                 }
             }
@@ -171,6 +171,20 @@ class UserController {
     }
 
     /**
+     * Valid password has at least 6 symbols
+     *
+     * @param string $password
+     * @return bool
+     */
+    private function isValidPassword($password){
+        $isValid = false;
+        if(isset($password) && trim($password) != "" && strlen($password) >= 6){
+            $isValid = true;
+        }
+        return $isValid;
+    }
+
+    /**
      * Validate if all input is correct
      * @param POST array
      * @return bool
@@ -180,7 +194,7 @@ class UserController {
             $$key = $value;
         }
         $isValid = false;
-        if ($this->isValidString($firstName) && $this->isValidString($lastName) && $this->isValidString($password)
+        if ($this->isValidString($firstName) && $this->isValidString($lastName) && $this->isValidPassword($password)
                     && $this->isValidEmail($email) && $this->isValidAge($age)){
             $isValid = true;
         }
