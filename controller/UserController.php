@@ -19,7 +19,7 @@ class UserController {
                 $password = password_hash(trim($_POST["password"]), PASSWORD_BCRYPT);
                 $age = $_POST["age"];
                 $isAdmin = null;
-                //if user is not empty - the email from input is already exists
+                //if user is not empty - the email from input already exists
                 $user = UserDao::getByEmail($email);
                 if($user != null){
                     $msg .= "Вече съществува потребител с този email";
@@ -65,7 +65,7 @@ class UserController {
             $email = $_POST["email"];
             $password = trim($_POST["password"]);
         }
-        //if data come from loginFrom, it is in requests body
+        //if data comes from loginFrom, it is in requests body
         else if (isset($_GET['response'])) {
             $json_str = file_get_contents('php://input');
             $requestBody = json_decode($json_str, true);
@@ -83,7 +83,7 @@ class UserController {
                 if(password_verify($password, $realPassword)) {
                     $user = UserDao::getByEmail($email);
                     $_SESSION["user"]= $user;
-                    //if request is come from loginForm we must return that login is success
+                    //if request comes from loginForm we must return that login is successful
                     if (isset($_GET['response']) && $_GET['response']=="json") {
                         $response = array();
                         $response["success"]= "true";

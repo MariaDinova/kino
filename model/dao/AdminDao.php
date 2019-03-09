@@ -64,6 +64,22 @@ class AdminDao{
     }
 
 
+    public static function getMovieIdFromTickets(){
+        $pdo = DBConnection::getSingletonPDO();
+        $stmt = $pdo->prepare("SELECT DISTINCT movie_id FROM programs 
+                                        WHERE program_id IN (SELECT DISTINCT program_id
+                                        FROM kino.tickets);");
+        $stmt->execute();
+        $ids = [];
+        $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        foreach ($results as $result){
+            $id = $result["movie_id"];
+            $ids[] = $id;
+        }
+        return $ids;
+    }
+
+
 
     public static function insertMovie($movie_name, $description, $movie_type_id, $image_uri, $trailer_uri, $age_rest_id, $price, $duration, $slot ){
         $pdo = DBConnection::getSingletonPDO();

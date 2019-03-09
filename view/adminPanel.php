@@ -1,17 +1,19 @@
 <?php
-if($_SESSION["user"]->getIsAdmin() == 0){
+if($_SESSION["user"]->getIsAdmin() == null){
     header("Location: ".BASE_PATH);
 }else{
     include_once URI . "view/adminPanel.php";
 }
-$tickets = \model\dao\AdminDao::getAllTickets();
-$movies = \model\dao\AdminDao::getAllMovies();
-$movie_types = \model\dao\MovieCategoryDao::getAll();
-$restrictions = \model\dao\AgeRestrictionDao::getAll();
-$halls = \model\dao\AdminDao::getAllHalls();
-$hall_types = \model\dao\AdminDao::getAllHallTypes();
-$cinemas = \model\dao\CinemaDao::getAll();
-$periods= \model\dao\PeriodsDao::getAllPeriods();
+
+
+$tickets = \controller\AdminController::getAllTickets();
+$movies = \controller\AdminController::getAllMovies();
+$movie_types = \controller\AdminController::getAllMovieTypes();
+$restrictions = \controller\AdminController::getAllRestrictions();
+$halls = \controller\AdminController::getAllHalls();
+$hall_types = \controller\AdminController::getAllHallTypes();
+$cinemas = \controller\AdminController::getAllCinemas();
+$periods= \controller\AdminController::getAllPeriods();
 ?>
 
 <!doctype html>
@@ -24,13 +26,10 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <title>Admin Panel</title>
     <link rel="stylesheet" href="view/css/adminPanelCss.css">
-    <script>
-        if ( window.history.replaceState ) {
-            window.history.replaceState( null, null, window.location.href );
-        }
-    </script>
+    <script src="view/js/adminJs.js"></script>
 </head>
 <body>
 <br>
@@ -49,22 +48,22 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
 
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item active">
-            <a class="nav-link" data-toggle="tab" href="#movie_list">List all movies</a>
+            <a class="nav-link text-warning" data-toggle="tab" href="#movie_list">List all movies</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#movie-insert">Insert Movie</a>
+            <a class="nav-link text-warning" data-toggle="tab" href="#movie-insert">Insert Movie</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#insertInDB">Insert In DB</a>
+            <a class="nav-link text-warning" data-toggle="tab" href="#insertInDB">Insert In DB</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#insertProgram">Insert Program</a>
+            <a class="nav-link text-warning" data-toggle="tab" href="#insertProgram">Insert Program</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#editMovie">Edit Movie</a>
+            <a class="nav-link text-warning" data-toggle="tab" href="#editMovie">Edit Movie</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#boughtTickets">Bought Tickets</a>
+            <a class="nav-link text-warning" data-toggle="tab" href="#boughtTickets">Bought Tickets</a>
         </li>
 
     </ul>
@@ -225,7 +224,7 @@ $periods= \model\dao\PeriodsDao::getAllPeriods();
                         <td>
                             <form action="?target=admin&action=deleteMovie" method="post">
                                 <input type="hidden" name="movieId" value="<?php echo $movie->getMovieId(); ?>">
-                                <input type="submit" name="deleteMovie" value="Delete" class="btn btn-danger">
+                                <button class="delete btn btn-danger"><input type="submit" name="deleteMovie" value="Delete" class="btn btn-danger"></button>
                             </form>
                         </td>
                     </tr>

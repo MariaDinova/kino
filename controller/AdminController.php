@@ -10,6 +10,10 @@ namespace controller;
 
 
 use model\dao\AdminDao;
+use model\dao\AgeRestrictionDao;
+use model\dao\CinemaDao;
+use model\dao\MovieCategoryDao;
+use model\dao\PeriodsDao;
 
 class AdminController{
 
@@ -20,6 +24,52 @@ class AdminController{
             header("Location:".BASE_PATH."index.php");
         }
     }
+
+    public static function getAllMovies(){
+        $movies = AdminDao::getAllMovies();
+        return $movies;
+    }
+
+    public static function getAllTickets(){
+        $tickets = AdminDao::getAllTickets();
+        return $tickets;
+    }
+
+    public static function getAllMovieTypes(){
+        $movie_types = MovieCategoryDao::getAll();
+        return $movie_types;
+    }
+
+    public static function getAllRestrictions(){
+        $restrictions = AgeRestrictionDao::getAll();
+        return $restrictions;
+    }
+
+    public static function getAllHalls(){
+    $halls = AdminDao::getAllHalls();
+    return $halls;
+}
+
+    public static function getAllHallTypes(){
+        $hallTypes = AdminDao::getAllHallTypes();
+        return $hallTypes;
+    }
+
+    public static function getAllCinemas(){
+        $cinemas = CinemaDao::getAll();
+        return $cinemas;
+    }
+
+    public static function getAllPeriods(){
+        $periods = PeriodsDao::getAllPeriods();
+        return $periods;
+    }
+
+    public static function getProgramIdsFromTickets(){
+        $program_ids = AdminDao::getProgramIdFromTickets();
+        return $program_ids;
+    }
+
 
 
     public function insertMovie(){
@@ -58,28 +108,28 @@ class AdminController{
                 $age_restriction = $_POST["age_rest"];
 
                 if (!empty($_POST["price"])) {
-                    if($_POST["price"] > 0) {
+                    if($_POST["price"] > 0  && $_POST["price"] < 1000) {
                         $price = intval(($_POST["price"]));
                     }else {
-                        $error = "Must be a positive number";
+                        $error = "Must be a positive number and not over 1000";
                     }
                 } else {
                     $error = "Required field and must be a positive number";
                 }
                 if (!empty($_POST["duration"])) {
-                    if($_POST["duration"] > 0) {
+                    if($_POST["duration"] > 0 && $_POST["duration"] < 1000) {
                         $duration = intval($_POST["duration"]);
                     }else {
-                        $error = "Must be a positive number";
+                        $error = "Must be a positive number and not over 1000";
                     }
                 } else {
                     $error = "Required field and must be a number";
                 }
                 if (!empty($_POST["slot"])) {
-                    if($_POST["slot"] >= 0) {
+                    if($_POST["slot"] >= 0 && $_POST["slot"] < 1000 ) {
                         $slot = intval($_POST["slot"]);
                     }else {
-                        $error = "Must be a positive number";
+                        $error = "Must be a positive number and not over 1000";
                     }
                 } else {
                     $error = "Required field and must be a positive number";
@@ -165,11 +215,20 @@ class AdminController{
     }
 
 
-    public function deleteMovie()
-    {
-        if (isset($_POST["deleteMovie"])) {
-            $movieId = $_POST["movieId"];
-            AdminDao::deleteMovie($movieId);
+    public function deleteMovie(){
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_POST["deleteMovie"])) {
+                $movieIds_with_tickets = AdminDao::getMovieIdFromTickets();
+                $movieId = $_POST["movieId"];
+                if(in_array($movieId, $movieIds_with_tickets)){
+                    echo "<h3>Sorry, the movie is in the program, don't delete it</h3>";
+                    include_once URI . "view/adminPanel.php";
+                }else {
+                    AdminDao::deleteMovie($movieId);
+                    include_once URI . "view/adminPanel.php";
+                }
+            }
+        }else{
             include_once URI . "view/adminPanel.php";
         }
     }
@@ -245,6 +304,8 @@ class AdminController{
             include_once URI . "view/adminPanel.php";
         }
     }
+
+
 
 
 

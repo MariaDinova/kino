@@ -5,7 +5,7 @@ use model\dao\ProgramDao;
 class ProgramController {
     /**
      * List program by date and hall
-     * If user not choose day and hall - list for current date in all halls
+     * If user doesn't choose day and hall - list for current date in all halls
      * Call - smartyTemplate - programList.tpl
      *
      * @return void
