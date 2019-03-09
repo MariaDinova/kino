@@ -64,19 +64,15 @@ class AdminDao{
     }
 
 
-    public static function getMovieIdFromTickets(){
+    public static function getTicketsByMovie($movie_id){
         $pdo = DBConnection::getSingletonPDO();
-        $stmt = $pdo->prepare("SELECT DISTINCT movie_id FROM programs 
-                                        WHERE program_id IN (SELECT DISTINCT program_id
-                                        FROM kino.tickets);");
-        $stmt->execute();
-        $ids = [];
-        $results = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-        foreach ($results as $result){
-            $id = $result["movie_id"];
-            $ids[] = $id;
-        }
-        return $ids;
+        $stmt = $pdo->prepare("SELECT COUNT(ticket_id) AS tickets 
+                                        FROM tickets JOIN programs ON tickets.program_id = programs.program_id 
+                                        JOIN movies ON programs.movie_id = movies.movie_id 
+                                        WHERE movies.movie_id = ?;");
+        $stmt->execute(array($movie_id));
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result["tickets"];
     }
 
 

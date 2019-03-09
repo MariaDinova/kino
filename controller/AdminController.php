@@ -218,9 +218,9 @@ class AdminController{
     public function deleteMovie(){
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST["deleteMovie"])) {
-                $movieIds_with_tickets = AdminDao::getMovieIdFromTickets();
                 $movieId = $_POST["movieId"];
-                if(in_array($movieId, $movieIds_with_tickets)){
+                $ticketsCount= AdminDao::getTicketsByMovie($movieId);
+                if($ticketsCount > 0){
                     echo "<h3>Sorry, the movie is in the program, don't delete it</h3>";
                     include_once URI . "view/adminPanel.php";
                 }else {
