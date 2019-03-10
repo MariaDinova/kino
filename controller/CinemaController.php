@@ -9,7 +9,7 @@ class CinemaController {
      *
      * @return void
      */
-    public function list(){
+    public function listAll(){
         $allCinema = CinemaDao::getAll();
         $GLOBALS["smarty"]->assign('isLoggedIn', isset($_SESSION["user"]));
         $GLOBALS["smarty"]->assign('cinemas', $allCinema);

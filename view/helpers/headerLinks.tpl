@@ -1,6 +1,6 @@
 <menu>
-<div><a href="{$BASE_PATH}?target=cinema&action=list">Кина</a></div>
-<div><a href="{$BASE_PATH}?target=program&action=list">Програма</a></div>
+<div><a href="{$BASE_PATH}?target=cinema&action=listAll">Кина</a></div>
+<div><a href="{$BASE_PATH}?target=program&action=listAll">Програма</a></div>
 {if $isLoggedIn}
     <div><a href="{$BASE_PATH}?target=user&action=logout">Изход</a></div>
     <div><a href="{$BASE_PATH}?target=tickets&action=myTickets">Моите билети</a></div>

@@ -8,7 +8,7 @@
     <!--Take days from ProgramController and list them-->
 {foreach from=$weekArr key=arrayIndex item=day}
     <!--Each day must be a link that show program for chosen day and hall-->
-        <div><a href="{$BASE_PATH}?target=program&action=list&day={$arrayIndex}&hall={$hall}">{$day}</a></div>
+        <div><a href="{$BASE_PATH}?target=program&action=listAll&day={$arrayIndex}&hall={$hall}">{$day}</a></div>
 {/foreach}
 </section>
 <!--If have error message - show it-->

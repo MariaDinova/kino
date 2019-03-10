@@ -12,7 +12,7 @@ class HallsController {
      *
      * @return void
      */
-    public function list(){
+    public function listAll(){
         $msg = "";
         if(isset($_GET["cinema"])){
             $cinema=$_GET["cinema"];

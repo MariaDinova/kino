@@ -7,7 +7,7 @@
     <!--Take all cinema from CinemaController and list them with picture, name and location.
      Link to halls of each of them with id by get-->
     {foreach from=$cinemas key=arrayIndex item=cinema}
-        <div><a href="{$BASE_PATH}?target=halls&action=list&cinema={$cinema->getCinemaId()}">
+        <div><a href="{$BASE_PATH}?target=halls&action=listAll&cinema={$cinema->getCinemaId()}">
                     <img src="{$BASE_PATH}{$cinema->getThumb()}" />
                     <br />
                     {$cinema->getName()}

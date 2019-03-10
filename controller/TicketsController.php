@@ -131,8 +131,10 @@ class TicketsController {
         }
         $msg .= "</table>";
         $email =  $_SESSION["user"]->getEmail();
+        $headers = "From: webmaster@example.com" . "\r\n" .
+            "Content-Type: text/html; charset=UTF-8";
         if (BASE !== 'localhost') {
-            mail("$email", 'Tickets', $msg, "From: kino");
+            mail("$email", 'Tickets', $msg, $headers);
         }
         return $msg;
     }

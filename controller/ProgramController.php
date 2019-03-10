@@ -10,7 +10,8 @@ class ProgramController {
      *
      * @return void
      */
-    public function list(){
+    public function listAll (){
+
         // if is not set day, day = current date
         $day = isset($_GET["day"]) ?  $_GET["day"] : date("Y-m-d");
         $msg = "";
